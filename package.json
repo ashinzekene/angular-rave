@@ -1,6 +1,6 @@
 {
   "name": "angular-rave",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "an angular 4 module for rave transactions",
   "main": "index.ts",
   "scripts": {

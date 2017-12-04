@@ -1,12 +1,12 @@
 # ANGULAR-RAVE
 
-> Easily intergrate the rave payment gateway in your angular2+ project
+> Easily intergrate the [rave](https://ravepay.co/) payment gateway in your angular2+ project
 
 ## HOW TO USE
 
 ### 1. INSTALL THE MODULE 
   Run
-  ```sh
+  ```bash
   npm install --save angular-rave
   ``` 
   in the your angular project 
@@ -74,9 +74,11 @@ meta                    | object      |  false           | -             | Any o
 onclose                 | function()  |  false           | -             | A function to be called when the pay modal is closed.
 callback                | function(res) |  false         | -             | A function to be called on successful card charge. User’s can always be redirected to a successful or failed page supplied by the merchant here based on response.
 
+> You can get more information from [rave's documentation](https://flutterwavedevelopers.readme.io/)
+
 ## CONTRIBUTING
 
-  This is an opensource, feel free to create issues and submit pull requests to make corrections or enhance functionality
+  This is an open source project, feel free to create issues and submit pull requests to make corrections or enhance functionality
   
 ## How can I thank you?
 
