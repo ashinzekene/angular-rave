@@ -35,12 +35,12 @@
 
   ```html
   <angular-rave
-    [PBFPubKey] = ""
+    [PBFPubKey] = "FLWPUBK-XXXXXXXXXXXX"
     [customer_email] = "'user@example.com'"
     [customer_phone] = "'08090909090'"
     [amount]="500000"
-    [custom_title]="Bill Payment"
-    [txref]="USR1295950"
+    [custom_title]="'Bill Payment'"
+    [txref]="'USR1295950'"
     (callback)="paymentSuccess($event)"
     (close)="paymentFailure()"
   ><angular-rave>
