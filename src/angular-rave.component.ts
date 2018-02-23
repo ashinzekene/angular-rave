@@ -66,6 +66,7 @@ export class AngularRaveComponent implements OnInit {
     this.onclose ? this.raveOptions.onclose = () => this.onclose.emit(): null
     this.callback ? this.raveOptions.callback = (res) => this.onclose.emit(res): null
   }
+
   validateInput(){
     if (!this.PBFPubKey) return console.error("Merchant public key is required");
     if (!(this.customer_email || this.customer_phone)) return console.error("Customer email or phone number is required");
