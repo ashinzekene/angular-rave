@@ -1,4 +1,4 @@
-export interface raveOptions {
+export interface RaveOptions {
   PBFPubKey: string
   customer_email: string
   customer_firstname: string

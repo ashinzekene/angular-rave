@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { raveOptions } from "./rave-options";
+import { RaveOptions } from "./rave-options";
 
 interface myWindow extends Window {
-  getpaidSetup: (raveOptions: Partial<raveOptions>) => void
+  getpaidSetup: (raveOptions: Partial<RaveOptions>) => void
 }
 
 declare var window: myWindow
@@ -32,7 +32,7 @@ export class AngularRaveComponent implements OnInit {
   @Input() meta: any;
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
-  public raveOptions: Partial<raveOptions> = {}
+  public raveOptions: Partial<RaveOptions> = {}
 
   constructor() { }
 

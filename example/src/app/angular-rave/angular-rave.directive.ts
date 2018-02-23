@@ -1,18 +1,17 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Directive, Input, Output, HostListener, EventEmitter } from "@angular/core";
+
 import { RaveOptions } from "./rave-options";
 
-interface myWindow extends Window {
+interface MyWindow extends Window {
   getpaidSetup: (raveOptions: Partial<RaveOptions>) => void
 }
 
-declare var window: myWindow
+declare var window : MyWindow
 
-@Component({
-  selector: 'angular-rave',
-  template: `<div></div>`
+@Directive({
+  selector: '[angular-rave]'
 })
-
-export class AngularRaveComponent implements OnInit {
+export class AngularRaveDirective {
   @Input() PBFPubKey: string;
   @Input() integrity_hash: string;
   @Input() txref: string;
@@ -36,6 +35,11 @@ export class AngularRaveComponent implements OnInit {
 
   constructor() { }
 
+  @HostListener('click')
+  buttonClick() {
+    this.pay()
+  }
+
   pay() {
     if (!this.validateInput()) {
       return
@@ -46,7 +50,7 @@ export class AngularRaveComponent implements OnInit {
     this.insertRaveOptions()
     window.getpaidSetup(this.raveOptions)
   }
-  
+
   insertRaveOptions() {
     this.amount ? this.raveOptions.amount = this.amount : null
     this.PBFPubKey ? this.raveOptions.PBFPubKey = this.PBFPubKey : null
@@ -63,10 +67,10 @@ export class AngularRaveComponent implements OnInit {
     this.customer_firstname ? this.raveOptions.customer_firstname = this.customer_firstname : null
     this.customer_lastname ? this.raveOptions.customer_lastname = this.customer_lastname : null
     this.customer_phone ? this.raveOptions.customer_phone = this.customer_phone : null
-    this.onclose ? this.raveOptions.onclose = () => this.onclose.emit(): null
-    this.callback ? this.raveOptions.callback = (res) => this.onclose.emit(res): null
+    this.onclose ? this.raveOptions.onclose = () => this.onclose.emit() : null
+    this.callback ? this.raveOptions.callback = (res) => this.onclose.emit(res) : null
   }
-  validateInput(){
+  validateInput() {
     if (!this.PBFPubKey) return console.error("Merchant public key is required");
     if (!(this.customer_email || this.customer_phone)) return console.error("Customer email or phone number is required");
     if (!this.txref) return console.error("A unique tranaction reference is required")
@@ -75,7 +79,4 @@ export class AngularRaveComponent implements OnInit {
     return true
   }
 
-  ngOnInit() { 
-    this.pay()
-  }
 }
