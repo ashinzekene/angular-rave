@@ -1,10 +1,11 @@
 {
   "name": "angular-rave",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "an angular 4 module for rave transactions",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "tsc": "ngc",
+    "process": "node scripts/process",
     "try": "node scripts/try-example",
     "deploy": "gh-pages -d dist",
     "publish-patch": "npm run tsc && node process && cd lib && npm version patch && npm publish",
