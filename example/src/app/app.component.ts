@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
   paymentOptions:any = {}
+  ref: string
   constructor() {
     this.paymentOptions.PBFPubKey = 'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X'
     this.paymentOptions.customer_email = 'mailexample@mail.com'
@@ -25,6 +26,7 @@ export class AppComponent {
     // this.paymentOptions.pay_button_text = 
     this.paymentOptions.txref = 'uisiusiduisui'
     // this.paymentOptions.integrity_hash = 
+    this.generateRef()
   }
   paymentDone(ref) {
     console.log(ref)
@@ -33,5 +35,16 @@ export class AppComponent {
 
   paymentCancel() {
     this.title = `Payment Cancelled`
+  }
+
+  generateRef() {
+    var arr = "abcdefghijklmnopqrstuvwxyz1234567890".split("")
+    var x = 12
+    var res = ""
+    while (x) {
+      res += arr[Math.ceil(Math.random()*arr.length)]
+      x--
+    }
+    this.ref= res
   }
 }
