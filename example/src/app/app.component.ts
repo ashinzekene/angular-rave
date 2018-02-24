@@ -15,16 +15,16 @@ export class AppComponent {
     this.paymentOptions.customer_firstname = '0907477588'
     this.paymentOptions.customer_lastname = 'ekene'
     this.paymentOptions.custom_description = 'payment for somehtons'
-    // this.paymentOptions.custom_logo = 
-    // this.paymentOptions.custom_title = 
     this.paymentOptions.amount = 500000
     this.paymentOptions.customer_phone = '0902646464646' 
+    this.paymentOptions.txref = this.generateRef()
+    // this.paymentOptions.custom_logo = 
+    // this.paymentOptions.custom_title = 
     // this.paymentOptions.redirect_url = 
     // this.paymentOptions.country = 
     // this.paymentOptions.currency = 
     // this.paymentOptions.payment_method = 
     // this.paymentOptions.pay_button_text = 
-    this.paymentOptions.txref = 'uisiusiduisui'
     // this.paymentOptions.integrity_hash = 
     this.generateRef()
   }
@@ -45,6 +45,6 @@ export class AppComponent {
       res += arr[Math.ceil(Math.random()*arr.length)]
       x--
     }
-    this.ref= res
+    return res
   }
 }

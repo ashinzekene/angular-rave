@@ -1,4 +1,4 @@
-export interface RaveOptions {
+export class RaveOptions {
   PBFPubKey: string
   customer_email: string
   customer_firstname: string
@@ -15,6 +15,6 @@ export interface RaveOptions {
   pay_button_text: string
   txref: string
   integrity_hash: string
-  callback: (response: any) => void,
+  callback: (response: any) => void
   onclose: () => void
 }
