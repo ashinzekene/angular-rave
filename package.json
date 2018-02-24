@@ -6,7 +6,7 @@
   "scripts": {
     "tsc": "ngc",
     "try": "node scripts/try-example",
-    "deploy": "gh-pages -d examples",
+    "deploy": "gh-pages -d dist",
     "publish-patch": "npm run tsc && node process && cd lib && npm version patch && npm publish",
     "publish-minor": "npm run tsc && node process && cd lib && npm version minor && npm publish"
   },
@@ -47,7 +47,5 @@
     "typescript": "^2.4.1",
     "zone.js": "^0.8.10"
   },
-  "dependencies": {
-    "gh-pages": "^1.1.0"
-  }
+  "dependencies": {}
 }
