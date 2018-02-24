@@ -74,14 +74,14 @@ You can also pass in an object containing your rave options like so
 
 ```ts
 paymentOptions: any = {
-  PBFPubKey = 'FLWPUBK-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-  customer_email = 'mailexample@mail.com'
-  customer_firstname = 'Ashinze'
-  customer_lastname = 'Ekene'
-  custom_description = 'Payment for goods'
-  amount = 500000
-  customer_phone = '09026464646'
-  txref = this.generateRef()
+  PBFPubKey: 'FLWPUBK-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+  customer_email: 'mailexample@mail.com'
+  customer_firstname: 'Ashinze'
+  customer_lastname: 'Ekene'
+  custom_description: 'Payment for goods'
+  amount: 500000
+  customer_phone: '09026464646'
+  txref: this.generateRef()
 }
 
 ```
