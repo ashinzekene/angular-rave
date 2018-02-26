@@ -75,7 +75,11 @@ You can also pass in an object containing your rave options like so
 ```
 
 ```ts
-paymentOptions: any = {
+import { RaveOptions } from 'angular-rave';
+
+...
+
+paymentOptions: RaveOptions = {
   PBFPubKey: 'FLWPUBK-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
   customer_email: 'mailexample@mail.com'
   customer_firstname: 'Ashinze'

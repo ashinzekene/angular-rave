@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { RaveOptions } from "./rave-options";
+import { _RaveOptions } from "./rave-options";
 
 interface myWindow extends Window {
-  getpaidSetup: (raveOptions: Partial<RaveOptions>) => void
+  getpaidSetup: (raveOptions: _RaveOptions) => void
 }
 
 declare var window: myWindow
@@ -30,10 +30,10 @@ export class AngularRaveComponent implements OnInit {
   @Input() redirect_url: string;
   @Input() custom_logo: string;
   @Input() meta: any;
-  @Input() raveOptions: Partial<RaveOptions>
+  @Input() raveOptions: _RaveOptions
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
-  private _raveOptions: Partial<RaveOptions> = {}
+  private _raveOptions: _RaveOptions
 
   constructor() { }
 
@@ -83,7 +83,18 @@ export class AngularRaveComponent implements OnInit {
     if (!this.raveOptions.PBFPubKey) return console.error("Merchant public key is required");
     if (!(this.raveOptions.customer_email || this.raveOptions.customer_phone)) return console.error("Customer email or phone number is required");
     if (!this.raveOptions.txref) return console.error("A unique tranaction reference is required")
-    if (!this.amount) return console.error("Amount to charge is required")
+    if (!this.raveOptions.amount) return console.error("Amount to charge is required")
+    // Remove callback and onClose from options
+    if (typeof this.raveOptions.callback === "function") {
+      console.log("callback present")
+      delete this.raveOptions.callback
+    }
+    if (typeof this.raveOptions.onclose === "function") {
+      console.log("onclose present")
+      delete this.raveOptions.onclose
+    }
+    this.raveOptions.onclose = () => this.onclose.emit()
+    this.raveOptions.callback = (res) => this.onclose.emit(res)
     if (!this.callback) return console.error("You should attach to callback to verify your transaction")
     return true
   }

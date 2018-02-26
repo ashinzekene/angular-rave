@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RaveOptions } from 'angular-rave'
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
-  paymentOptions:any = {}
+  paymentOptions: any = {}
   ref: string
   constructor() {
     this.paymentOptions.PBFPubKey = 'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X'
@@ -17,9 +18,12 @@ export class AppComponent {
     this.paymentOptions.custom_description = 'Payment for iPhone X'
     this.paymentOptions.custom_title = 'Angular Rave'
     this.paymentOptions.custom_logo = 'https://angular.io/assets/images/logos/angular/angular.svg'
-    this.paymentOptions.amount = "510000"
+    this.paymentOptions.amount = 510000
     this.paymentOptions.customer_phone = '0902646464646' 
     this.paymentOptions.txref = this.generateRef()
+    this.paymentOptions.onclose = function() {
+      console.log("HACKED!!!")
+    }
     // this.paymentOptions.custom_logo = 
     // this.paymentOptions.custom_title = 
     // this.paymentOptions.redirect_url = 
