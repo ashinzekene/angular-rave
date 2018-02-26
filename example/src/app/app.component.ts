@@ -14,8 +14,10 @@ export class AppComponent {
     this.paymentOptions.customer_email = 'mailexample@mail.com'
     this.paymentOptions.customer_firstname = '0907477588'
     this.paymentOptions.customer_lastname = 'ekene'
-    this.paymentOptions.custom_description = 'payment for somehtons'
-    this.paymentOptions.amount = 500000
+    this.paymentOptions.custom_description = 'Payment for iPhone X'
+    this.paymentOptions.custom_title = 'Angular Rave'
+    this.paymentOptions.custom_logo = 'https://angular.io/assets/images/logos/angular/angular.svg'
+    this.paymentOptions.amount = "510000"
     this.paymentOptions.customer_phone = '0902646464646' 
     this.paymentOptions.txref = this.generateRef()
     // this.paymentOptions.custom_logo = 

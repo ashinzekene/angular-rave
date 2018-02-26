@@ -1,13 +1,14 @@
 {
   "name": "angular-rave",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "an angular 4 module for rave transactions",
   "main": "index.js",
   "scripts": {
     "tsc": "ngc",
+    "build": "npx ng build --prod",
     "process": "node scripts/process",
     "try": "node scripts/try-example",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d example/dist",
     "publish-patch": "npm run tsc && node scripts/process && cd lib && npm version patch && npm publish",
     "publish-minor": "npm run tsc && node scripts/process && cd lib && npm version minor && npm publish"
   },

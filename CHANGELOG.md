@@ -2,6 +2,12 @@
 
 All notable changes to `angular-rave` will be documented here
 
+## 0.2.1 - 2018-02-24
+- Changed rave script in example and on readme
+
+## 0.2.1 - 2018-02-24
+- Changed ts error on readme
+
 ## 0.2.0 - 2018-02-24
 - Added angular rave directive
 - Added reaveOptions input
