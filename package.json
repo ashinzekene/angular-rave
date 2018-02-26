@@ -7,7 +7,7 @@
     "tsc": "ngc",
     "process": "node scripts/process",
     "try": "node scripts/try-example",
-    "deploy": "npx gh-pages -d docs",
+    "deploy": "npx gh-pages -d example/dist",
     "publish-patch": "npm run tsc && node scripts/process && cd lib && npm version patch && npm publish",
     "publish-minor": "npm run tsc && node scripts/process && cd lib && npm version minor && npm publish"
   },
