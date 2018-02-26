@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { _RaveOptions } from "./rave-options";
 
 interface myWindow extends Window {
-  getpaidSetup: (raveOptions: _RaveOptions) => void
+  getpaidSetup: (raveOptions: Partial<_RaveOptions>) => void
 }
 
 declare var window: myWindow
@@ -30,10 +30,10 @@ export class AngularRaveComponent implements OnInit {
   @Input() redirect_url: string;
   @Input() custom_logo: string;
   @Input() meta: any;
-  @Input() raveOptions: _RaveOptions
+  @Input() raveOptions:Partial<_RaveOptions>
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
-  private _raveOptions: _RaveOptions
+  private _raveOptions: Partial<_RaveOptions>
 
   constructor() { }
 
@@ -82,7 +82,7 @@ export class AngularRaveComponent implements OnInit {
   validateOptions() {
     if (!this.raveOptions.PBFPubKey) return console.error("Merchant public key is required");
     if (!(this.raveOptions.customer_email || this.raveOptions.customer_phone)) return console.error("Customer email or phone number is required");
-    if (!this.raveOptions.txref) return console.error("A unique tranaction reference is required")
+    if (!this.raveOptions.txref) return console.error("A unique transaction reference is required")
     if (!this.raveOptions.amount) return console.error("Amount to charge is required")
     // Remove callback and onClose from options
     if (typeof this.raveOptions.callback === "function") {
@@ -102,7 +102,7 @@ export class AngularRaveComponent implements OnInit {
   validateInput() {
     if (!this.PBFPubKey) return console.error("Merchant public key is required");
     if (!(this.customer_email || this.customer_phone)) return console.error("Customer email or phone number is required");
-    if (!this.txref) return console.error("A unique tranaction reference is required")
+    if (!this.txref) return console.error("A unique transaction reference is required")
     if (!this.amount) return console.error("Amount to charge is required")
     if (!this.callback) return console.error("You should attach to callback to verify your transaction")
     return true
