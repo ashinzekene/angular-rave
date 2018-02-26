@@ -4,6 +4,8 @@
 
 ## HOW TO USE
 
+You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
+
 ### 1. INSTALL THE MODULE
 
   Run
@@ -15,7 +17,7 @@
 ### 2. Reference the the rave script into the main `index.html` like so
 
   ```html
-  <script src="//flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+  <script src="//rave-api-v2.herokuapp.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
   ```
 
 ### 3. Import the module into your project like so
