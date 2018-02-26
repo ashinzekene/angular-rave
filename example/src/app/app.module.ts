@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-// import { AngularRaveModule } from 'angular-rave'
-import { AngularRaveModule } from './angular-rave/angular-rave.module'
+import { AngularRaveModule } from 'angular-rave'
 
 import { AppComponent } from './app.component';
 
