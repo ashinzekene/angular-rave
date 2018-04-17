@@ -18,25 +18,17 @@ export class AppComponent {
     this.paymentOptions.custom_description = 'Payment for iPhone X'
     this.paymentOptions.custom_title = 'Angular Rave'
     this.paymentOptions.custom_logo = 'https://angular.io/assets/images/logos/angular/angular.svg'
-    this.paymentOptions.amount = 510000
-    this.paymentOptions.customer_phone = '0902646464646' 
+    this.paymentOptions.amount = 50000
+    this.paymentOptions.customer_phone = '09026464644' 
     this.paymentOptions.txref = this.generateRef()
     this.paymentOptions.onclose = function() {
-      console.log("HACKED!!!")
+      console.log("Cancelled!")
     }
-    // this.paymentOptions.custom_logo = 
-    // this.paymentOptions.custom_title = 
-    // this.paymentOptions.redirect_url = 
-    // this.paymentOptions.country = 
-    // this.paymentOptions.currency = 
-    // this.paymentOptions.payment_method = 
-    // this.paymentOptions.pay_button_text = 
-    // this.paymentOptions.integrity_hash = 
+
     this.generateRef()
   }
   paymentDone(ref) {
-    console.log(ref)
-    this.title = `Payment Complete ${ref}`
+    this.title = `Payment Complete ${JSON.stringify(ref)}`
   }
 
   paymentCancel() {

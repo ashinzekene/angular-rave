@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="display-4 text-center p-3">Buy an iPhone X today</div>
+  <div class="display-4 text-center p-3">Buy an iPhone X today: {{ title }}</div>
   <div class="d-flex justify-content-center align-items-center row">
     <div class="card" style="width: 400px">
       <img height="auto" width="100%" src="https://cdn.macrumors.com/article-new/2017/10/iphone-x-silver.jpg"
@@ -9,8 +9,25 @@
         <p class="card-text">Our vision has always been to create an iPhone that is entirely screen. One so immersive the device itself disappears
           into the experience. And so intelligent it can respond to a tap, your voice, and even a glance. With iPhone X,
           that vision is now a reality. Say hello to the future.</p>
-        <button class="btn btn-primary" [raveOptions]="paymentOptions" (close)="paymentCancel()"
-          (callback)="paymentDone($event)" angular-rave>Get it for &#x20a6;510,000 only</button>
+        <button class="btn btn-primary my-3" [raveOptions]="paymentOptions" (close)="paymentCancel()"
+          (callback)="paymentDone($event)" angular-rave>Get it for &#x20a6;50,000 only</button>
+        <button 
+          class="btn btn-danger"
+          [raveOptions]="paymentOptions"
+          [PBFPubKey]="'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X'"
+          [customer_email]="'mailexample@mail.com'"
+          [customer_firstname]="'0907477588'"
+          [customer_lastname]="'ekene'"
+          [custom_description]="'Payment for iPhone X'"
+          [custom_title]="'Angular Rave'"
+          [custom_logo]="'https://angular.io/assets/images/logos/angular/angular.svg'"
+          [amount]="50000"
+          [customer_phone]="'0902646464646' "
+          [txref]="t8747589jvu9im"
+          (close)="paymentCancel()"
+          (callback)="paymentDone($event)"
+          angular-rave
+          >Get it for &#x20a6;50,000 only</button>
       </div>
     </div>
   </div>

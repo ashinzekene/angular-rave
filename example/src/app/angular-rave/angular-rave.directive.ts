@@ -29,10 +29,10 @@ export class AngularRaveDirective {
   @Input() redirect_url: string;
   @Input() custom_logo: string;
   @Input() meta: any;
-  @Input() raveOptions: _RaveOptions
+  @Input() raveOptions: Partial<_RaveOptions> = {}
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
-  private _raveOptions: _RaveOptions
+  private _raveOptions: Partial<_RaveOptions> = {}
 
   constructor() { }
 
@@ -47,13 +47,11 @@ export class AngularRaveDirective {
     }
     // If the raveoptions Input is present then use
     if (this.raveOptions && Object.keys(this.raveOptions).length > 3) {
-      console.log("Options present")
       if (!this.validateOptions()) {
         return
       }
       window.getpaidSetup(this.raveOptions)
     } else {
-      console.log("Options absent")
       if (!this.validateInput()) {
         return
       }
@@ -78,6 +76,7 @@ export class AngularRaveDirective {
     this.customer_firstname ? this._raveOptions.customer_firstname = this.customer_firstname : null
     this.customer_lastname ? this._raveOptions.customer_lastname = this.customer_lastname : null
     this.customer_phone ? this._raveOptions.customer_phone = this.customer_phone : null
+    this.txref ? this._raveOptions.txref = this.txref : null
     this.onclose ? this._raveOptions.onclose = () => this.onclose.emit() : null
     this.callback ? this._raveOptions.callback = (res) => this.onclose.emit(res) : null
   }
@@ -89,11 +88,9 @@ export class AngularRaveDirective {
     if (!this.raveOptions.amount) return console.error("Amount to charge is required")
     // Remove callback and onClose from options
     if (typeof this.raveOptions.callback === "function") {
-      console.log("callback present")
       delete this.raveOptions.callback
     }
     if (typeof this.raveOptions.onclose === "function") {
-      console.log("onclose present")
       delete this.raveOptions.onclose
     }
     this.raveOptions.onclose = () => this.onclose.emit()
