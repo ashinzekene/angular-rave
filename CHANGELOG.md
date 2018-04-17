@@ -2,6 +2,12 @@
 
 All notable changes to `angular-rave` will be documented here
 
+## 1.0.2 - 2018-04-17
+- fixed bug where txref is not passed to rave
+
+## 1.0.1 - 2018-02-26
+- small bug fixes
+
 ## 0.2.1 - 2018-02-24
 - Changed rave script in example and on readme
 

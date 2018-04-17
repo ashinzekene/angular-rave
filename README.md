@@ -39,7 +39,7 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
  Either by using the component
   ```html
   <angular-rave
-    [PBFPubKey] = "FLWPUBK-XXXXXXXXXXXX"
+    [PBFPubKey] = "'FLWPUBK-XXXXXXXXXXXX'"
     [customer_email] = "'user@example.com'"
     [customer_phone] = "'08090909090'"
     [amount]="500000"
@@ -54,7 +54,7 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
 ```html
 <button
   angular-rave
-  [PBFPubKey] = "FLWPUBK-XXXXXXXXXXXX"
+  [PBFPubKey] = "'FLWPUBK-XXXXXXXXXXXX'"
   [customer_email] = "'user@example.com'"
   [customer_phone] = "'08090909090'"
   [amount]="500000"
