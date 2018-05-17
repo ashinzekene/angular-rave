@@ -1,14 +1,9 @@
 <button
 angular-rave
 class="btn btn-primary btn-lg"
-[PBFPubKey] = "'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X'"
-[customer_email] = "'user@example.com'"
-[customer_phone] = "'08090909090'"
-[amount]="5000"
-[custom_title]="'Bill Payment'"
-[txref]="'USR1295950'"
+[raveOptions]="raveOptions"
 (callback)="paymentSuccess($event)"
-(close)="paymentFailure()"
+(onclose)="paymentFailure()"
 >
 Pay with Rave
 </button>

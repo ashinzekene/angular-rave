@@ -47,7 +47,7 @@ export class AngularRaveDirective {
     }
     // If the raveoptions Input is present then use
     if (this.raveOptions && Object.keys(this.raveOptions).length > 3) {
-      this.validateOptions && window.getpaidSetup(this.raveOptions)
+      this.validateOptions() && window.getpaidSetup(this.raveOptions)
     } else {
       if (this.validateInput()) {
         this.insertRaveOptions()
@@ -73,8 +73,12 @@ export class AngularRaveDirective {
     this.customer_lastname ? this._raveOptions.customer_lastname = this.customer_lastname : null
     this.customer_phone ? this._raveOptions.customer_phone = this.customer_phone : null
     this.txref ? this._raveOptions.txref = this.txref : null
-    this.onclose ? this._raveOptions.onclose = () => this.onclose.emit() : null
-    this.callback ? this._raveOptions.callback = res => this.callback.emit(res) : null
+    this.onclose ? this._raveOptions.onclose = () => {
+      this.onclose.emit()
+    } : null
+    this.callback ? this._raveOptions.callback = res => {
+      this.callback.emit(res) 
+    } : null
   }
 
   validateOptions() {
@@ -82,15 +86,8 @@ export class AngularRaveDirective {
     if (!(this.raveOptions.customer_email || this.raveOptions.customer_phone)) return console.error("ANGULAR-RAVE: Customer email or phone number is required");
     if (!this.raveOptions.txref) return console.error("ANGULAR-RAVE: A unique transaction reference is required")
     if (!this.raveOptions.amount) return console.error("ANGULAR-RAVE: Amount to charge is required")
-    if (!this.callback) return console.error("ANGULAR-RAVE: You should attach to callback to verify your transaction")
-    // Remove callback and onClose from options
-    if (typeof this.raveOptions.callback === "function") {
-      delete this.raveOptions.callback
-    }
-    if (typeof this.raveOptions.onclose === "function") {
-      delete this.raveOptions.onclose
-    }
-    this.raveOptions.onclose = () => this.onclose.emit()
+    if (!this.callback.observers.length) return console.error("ANGULAR-RAVE: You should attach to callback to verify your transaction")
+    if (this.callback.observers.length) this.raveOptions.onclose = () => this.onclose.emit()
     this.raveOptions.callback = res => this.callback.emit(res)
     return true
   }
