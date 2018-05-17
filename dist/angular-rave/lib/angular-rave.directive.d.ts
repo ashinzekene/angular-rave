@@ -20,7 +20,7 @@ export declare class AngularRaveDirective {
     meta: any;
     raveOptions: Partial<_RaveOptions>;
     onclose: EventEmitter<void>;
-    callback: EventEmitter<Object>;
+    callback: EventEmitter<any>;
     private _raveOptions;
     constructor();
     buttonClick(): void;

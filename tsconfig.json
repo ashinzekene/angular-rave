@@ -17,14 +17,8 @@
       "dom"
     ],
     "paths": {
-      "angularRave": [
-        "dist/angularRave"
-      ],
-      "angular4-paystack": [
-        "dist/angular4-paystack"
-      ],
-      "format-code": [
-        "dist/format-code"
+      "angular-rave": [
+        "dist/angular-rave"
       ]
     }
   }

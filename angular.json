@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-rave": {
+    "angular-rave-lib": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-rave:build"
+            "browserTarget": "angular-rave-lib:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-rave:build:production"
+              "browserTarget": "angular-rave-lib:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-rave:build"
+            "browserTarget": "angular-rave-lib:build"
           }
         },
         "test": {
@@ -117,7 +117,7 @@
         }
       }
     },
-    "angularRave": {
+    "angular-rave": {
       "root": "projects/angular-rave",
       "sourceRoot": "projects/angular-rave/src",
       "projectType": "library",
@@ -156,87 +156,7 @@
           }
         }
       }
-    },
-    "angular4-paystack": {
-      "root": "projects/angular4-paystack",
-      "sourceRoot": "projects/angular4-paystack/src",
-      "projectType": "library",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/angular4-paystack/tsconfig.lib.json",
-            "project": "projects/angular4-paystack/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/angular4-paystack/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/angular4-paystack/src/test.ts",
-            "tsConfig": "projects/angular4-paystack/tsconfig.spec.json",
-            "karmaConfig": "projects/angular4-paystack/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/angular4-paystack/tsconfig.lib.json",
-              "projects/angular4-paystack/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "format-code": {
-      "root": "projects/format-code",
-      "sourceRoot": "projects/format-code/src",
-      "projectType": "library",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/format-code/tsconfig.lib.json",
-            "project": "projects/format-code/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/format-code/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/format-code/src/test.ts",
-            "tsConfig": "projects/format-code/tsconfig.spec.json",
-            "karmaConfig": "projects/format-code/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/format-code/tsconfig.lib.json",
-              "projects/format-code/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
     }
   },
-  "defaultProject": "angularRave"
+  "defaultProject": "angular-rave"
 }
