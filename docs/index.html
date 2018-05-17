@@ -6,26 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="styles.34c57ab7888ec1573f9c.css"></head>
+<link rel="stylesheet" href="angular-rave/styles.34c57ab7888ec1573f9c.css"></head>
 <body>
-  <div class="btn btn-danger">
-    Payyyyyyyy
-  </div>
-  <app-root></app-root>
+  <app-root>
+    Angular Rave is Loading...
+  </app-root>
   <script src="//rave-api-v2.herokuapp.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-  <script>
-    document.querySelector(".btn-danger").addEventListener("click", pay)
-    function pay() {
-      window.getpaidSetup({
-        PBFPubKey: "FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X",
-        customer_email: "mail@test.com",
-        txref: `${Math.random()}`,
-        amount: 6000,
-        onclose: () => console.log("Cancelled"),
-        callback: res => console.log(res),
-      })
-    }
-  </script>
 
 
-<script type="text/javascript" src="runtime.6afe30102d8fe7337431.js"></script><script type="text/javascript" src="polyfills.2903ad11212d7d797800.js"></script><script type="text/javascript" src="main.cb92237dac772d6c58cc.js"></script></body></html>
+<script type="text/javascript" src="angular-rave/runtime.8223db65d5447183ec98.js"></script><script type="text/javascript" src="angular-rave/polyfills.2903ad11212d7d797800.js"></script><script type="text/javascript" src="angular-rave/main.cb92237dac772d6c58cc.js"></script></body></html>
