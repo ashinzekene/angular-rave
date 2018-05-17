@@ -87,7 +87,7 @@ export class AngularRaveDirective {
     if (!this.raveOptions.txref) return console.error("ANGULAR-RAVE: A unique transaction reference is required")
     if (!this.raveOptions.amount) return console.error("ANGULAR-RAVE: Amount to charge is required")
     if (!this.callback.observers.length) return console.error("ANGULAR-RAVE: You should attach to callback to verify your transaction")
-    if (this.callback.observers.length) this.raveOptions.onclose = () => this.onclose.emit()
+    if (this.onclose.observers.length) this.raveOptions.onclose = () => this.onclose.emit()
     this.raveOptions.callback = res => this.callback.emit(res)
     return true
   }
