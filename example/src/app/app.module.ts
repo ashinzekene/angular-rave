@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { AngularRaveModule } from 'angular-rave'
+
 import { AppComponent } from './app.component';
-import { AngularRaveModule } from 'angular-rave';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

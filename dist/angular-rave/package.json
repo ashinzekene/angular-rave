@@ -1,0 +1,21 @@
+{
+  "name": "angular-rave",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+  },
+  "main": "bundles/angular-rave.umd.js",
+  "module": "fesm5/angular-rave.js",
+  "es2015": "fesm2015/angular-rave.js",
+  "esm5": "esm5/angular-rave.js",
+  "esm2015": "esm2015/angular-rave.js",
+  "fesm5": "fesm5/angular-rave.js",
+  "fesm2015": "fesm2015/angular-rave.js",
+  "typings": "angular-rave.d.ts",
+  "metadata": "angular-rave.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

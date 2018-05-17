@@ -1,9 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
+/dist
 /tmp
 /out-tsc
-/uploads
 
 # dependencies
 /node_modules
@@ -24,22 +24,12 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
-<<<<<<< HEAD
-=======
-/lib
-
->>>>>>> e9b4d0a3d8c57ae666764446722867ad0b526917
 # misc
 /.sass-cache
 /connect.lock
 /coverage
 /libpeerconnection.log
 npm-debug.log
-<<<<<<< HEAD
-yarn-error.log
-testem.log
-/typings
-=======
 testem.log
 /typings
 yarn-error.log
@@ -47,12 +37,7 @@ yarn-error.log
 # e2e
 /e2e/*.js
 /e2e/*.map
->>>>>>> e9b4d0a3d8c57ae666764446722867ad0b526917
 
 # System Files
 .DS_Store
 Thumbs.db
-<<<<<<< HEAD
-=======
-yarn.lock
->>>>>>> e9b4d0a3d8c57ae666764446722867ad0b526917
