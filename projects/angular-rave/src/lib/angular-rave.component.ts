@@ -24,6 +24,7 @@ export class AngularRaveComponent implements OnInit {
   @Input() customer_phone: string;
   @Input() customer_firstname: string;
   @Input() customer_lastname: string;
+  @Input() subaccount: { id: string, transaction_split_ratio: string }[];
   @Input() pay_button_text: string;
   @Input() custom_title: string;
   @Input() custom_description: string;
@@ -55,60 +56,25 @@ export class AngularRaveComponent implements OnInit {
   }
 
   insertRaveOptions() {
-    if (this.amount) {
-      this._raveOptions.amount = this.amount;
-    }
-    if (this.PBFPubKey) {
-      this._raveOptions.PBFPubKey = this.PBFPubKey;
-    }
-    if (this.payment_method) {
-      this._raveOptions.payment_method = this.payment_method;
-    }
-    if (this.redirect_url) {
-      this._raveOptions.redirect_url = this.redirect_url;
-    }
-    if (this.integrity_hash) {
-      this._raveOptions.integrity_hash = this.integrity_hash;
-    }
-    if (this.pay_button_text) {
-      this._raveOptions.pay_button_text = this.pay_button_text;
-    }
-    if (this.country) {
-      this._raveOptions.country = this.country;
-    }
-    if (this.currency) {
-      this._raveOptions.currency = this.currency;
-    }
-    if (this.custom_description) {
-      this._raveOptions.custom_description = this.custom_description;
-    }
-    if (this.customer_email) {
-      this._raveOptions.customer_email = this.customer_email;
-    }
-    if (this.custom_logo) {
-      this._raveOptions.custom_logo = this.custom_logo;
-    }
-    if (this.custom_title) {
-      this._raveOptions.custom_title = this.custom_title;
-    }
-    if (this.customer_firstname) {
-      this._raveOptions.customer_firstname = this.customer_firstname;
-    }
-    if (this.customer_lastname) {
-      this._raveOptions.customer_lastname = this.customer_lastname;
-    }
-    if (this.txref) {
-      this._raveOptions.txref = this.txref;
-    }
-    if (this.customer_phone) {
-      this._raveOptions.customer_phone = this.customer_phone;
-    }
-    if (this.onclose) {
-      this._raveOptions.onclose = () => this.onclose.emit();
-    }
-    if (this.callback) {
-      this._raveOptions.callback = (res) => this.onclose.emit(res);
-    }
+    if (this.amount) { this._raveOptions.amount = this.amount; }
+    if (this.PBFPubKey) { this._raveOptions.PBFPubKey = this.PBFPubKey; }
+    if (this.payment_method) { this._raveOptions.payment_method = this.payment_method; }
+    if (this.redirect_url) { this._raveOptions.redirect_url = this.redirect_url; }
+    if (this.integrity_hash) { this._raveOptions.integrity_hash = this.integrity_hash; }
+    if (this.pay_button_text) { this._raveOptions.pay_button_text = this.pay_button_text; }
+    if (this.country) { this._raveOptions.country = this.country; }
+    if (this.currency) { this._raveOptions.currency = this.currency; }
+    if (this.custom_description) { this._raveOptions.custom_description = this.custom_description; }
+    if (this.customer_email) { this._raveOptions.customer_email = this.customer_email; }
+    if (this.custom_logo) { this._raveOptions.custom_logo = this.custom_logo; }
+    if (this.custom_title) { this._raveOptions.custom_title = this.custom_title; }
+    if (this.customer_firstname) { this._raveOptions.customer_firstname = this.customer_firstname; }
+    if (this.subaccount) { this._raveOptions.subaccount = this.subaccount; }
+    if (this.customer_lastname) { this._raveOptions.customer_lastname = this.customer_lastname; }
+    if (this.txref) { this._raveOptions.txref = this.txref; }
+    if (this.customer_phone) { this._raveOptions.customer_phone = this.customer_phone; }
+    if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
+    if (this.callback) { this._raveOptions.callback = (res) => this.onclose.emit(res); }
   }
 
   validateOptions() {
