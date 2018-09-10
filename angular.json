@@ -122,7 +122,7 @@
       "root": "projects/angular-rave",
       "sourceRoot": "projects/angular-rave/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "angular",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

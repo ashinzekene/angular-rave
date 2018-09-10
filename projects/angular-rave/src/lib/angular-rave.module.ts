@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { AngularRaveComponent } from './angular-rave.component';
-import { AngularRaveDirective } from "./angular-rave.directive";
+import { AngularRaveDirective } from './angular-rave.directive';
 
 @NgModule({
   imports: [],
