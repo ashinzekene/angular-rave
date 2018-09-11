@@ -1,10 +1,17 @@
 {
   "name": "angular-rave",
-  "version": "1.0.4",
+  "version": "1.1.1",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
   },
+  "keywords": [
+    "angular",
+    "payment",
+    "ravepayment",
+    "flutterwave",
+    "gateway"
+  ],
   "main": "bundles/angular-rave.umd.js",
   "module": "fesm5/angular-rave.js",
   "es2015": "fesm2015/angular-rave.js",

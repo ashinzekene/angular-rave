@@ -25,6 +25,7 @@ export class AngularRaveDirective {
   @Input() customer_lastname: string;
   @Input() pay_button_text: string;
   @Input() custom_title: string;
+  @Input() subaccount: { id: string, transaction_split_ratio: string }[];
   @Input() custom_description: string;
   @Input() redirect_url: string;
   @Input() custom_logo: string;
@@ -73,6 +74,7 @@ export class AngularRaveDirective {
     if (this.custom_title) { this._raveOptions.custom_title = this.custom_title; }
     if (this.customer_firstname) { this._raveOptions.customer_firstname = this.customer_firstname; }
     if (this.customer_lastname) { this._raveOptions.customer_lastname = this.customer_lastname; }
+    if (this.subaccount) { this._raveOptions.subaccount = this.subaccount; }
     if (this.customer_phone) { this._raveOptions.customer_phone = this.customer_phone; }
     if (this.txref) { this._raveOptions.txref = this.txref; }
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }

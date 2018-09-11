@@ -1,5 +1,5 @@
-import { EventEmitter } from "@angular/core";
-import { _RaveOptions } from "./rave-options";
+import { EventEmitter } from '@angular/core';
+import { PrivateRaveOptions } from './rave-options';
 export declare class AngularRaveDirective {
     PBFPubKey: string;
     integrity_hash: string;
@@ -14,11 +14,15 @@ export declare class AngularRaveDirective {
     customer_lastname: string;
     pay_button_text: string;
     custom_title: string;
+    subaccount: {
+        id: string;
+        transaction_split_ratio: string;
+    }[];
     custom_description: string;
     redirect_url: string;
     custom_logo: string;
     meta: any;
-    raveOptions: Partial<_RaveOptions>;
+    raveOptions: Partial<PrivateRaveOptions>;
     onclose: EventEmitter<void>;
     callback: EventEmitter<any>;
     private _raveOptions;

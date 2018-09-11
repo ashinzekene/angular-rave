@@ -72,6 +72,11 @@ export class RaveOptions {
    * Any other custom data you wish to pass.
    */
   meta?: any;
+  /**
+   * Subaccounts to split payment with
+   * https://developer.flutterwave.com/v2.0/docs/split-payment
+   */
+  subaccount?: { id: string, transaction_split_ratio: string }[];
 }
 
 export class PrivateRaveOptions extends RaveOptions {
