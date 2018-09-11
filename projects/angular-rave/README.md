@@ -29,7 +29,7 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
 
   @NgModlule({
     imports: [
-      AngularRave,
+      AngularRaveModule,
     ]
   })
   ```
@@ -47,7 +47,7 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
     [txref]="'USR1295950'"
     (callback)="paymentSuccess($event)"
     (close)="paymentFailure()"
-  ><angular-rave>
+  ></angular-rave>
   ```
   or the directive
 
@@ -73,21 +73,21 @@ You can also pass in an object containing your rave options like so
   [raveOptions]="paymentOptions"
 >PAY NOW</button>
 ```
-
+And then you can import the `RaveOptions` class for help in typing
 ```ts
 import { RaveOptions } from 'angular-rave';
 
 ...
 
 paymentOptions: RaveOptions = {
-  PBFPubKey: 'FLWPUBK-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-  customer_email: 'mailexample@mail.com'
-  customer_firstname: 'Ashinze'
-  customer_lastname: 'Ekene'
-  custom_description: 'Payment for goods'
-  amount: 500000
-  customer_phone: '09026464646'
-  txref: this.generateRef()
+  PBFPubKey: 'FLWPUBK-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+  customer_email: 'mailexample@mail.com',
+  customer_firstname: 'Ashinze',
+  customer_lastname: 'Ekene',
+  custom_description: 'Payment for goods',
+  amount: 500000,
+  customer_phone: '09026464646',
+  txref: 'a-unique-reference',
 }
 
 ```
@@ -121,6 +121,7 @@ custom_logo             | string      |  false           | -             | Link 
 meta                    | object      |  false           | -             | Any other custom data you wish to pass. Eg- [{   metaname:‘flightid’,metavalue:‘93849-MK5000’}]
 onclose                 | function()  |  false           | -             | A function to be called when the pay modal is closed.
 callback                | function(res) |  true          | -             | A function to be called on successful card charge. User’s can always be redirected to a successful or failed page supplied by the merchant here based on response.
+subaccounts             | []{id: string, transaction_split_ratio: string} |  true          | -             | Subaccounts to add for split payments https://developer.flutterwave.com/v2.0/docs/split-payment
 
 > You can get more information from [rave's documentation](https://flutterwavedevelopers.readme.io/)
 
