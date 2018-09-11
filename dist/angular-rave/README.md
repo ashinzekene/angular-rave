@@ -121,7 +121,7 @@ custom_logo             | string      |  false           | -             | Link 
 meta                    | object      |  false           | -             | Any other custom data you wish to pass. Eg- [{   metaname:‘flightid’,metavalue:‘93849-MK5000’}]
 onclose                 | function()  |  false           | -             | A function to be called when the pay modal is closed.
 callback                | function(res) |  true          | -             | A function to be called on successful card charge. User’s can always be redirected to a successful or failed page supplied by the merchant here based on response.
-callback                | function(res) |  true          | -             | Subaccounts to add for split payments https://developer.flutterwave.com/v2.0/docs/split-payment
+subaccounts             | []{id: string, transaction_split_ratio: string} |  true          | -             | Subaccounts to add for split payments https://developer.flutterwave.com/v2.0/docs/split-payment
 
 > You can get more information from [rave's documentation](https://flutterwavedevelopers.readme.io/)
 
