@@ -1,5 +1,5 @@
 import { OnInit, EventEmitter } from '@angular/core';
-import { _RaveOptions } from "./rave-options";
+import { PrivateRaveOptions } from './rave-options';
 export declare class AngularRaveComponent implements OnInit {
     PBFPubKey: string;
     integrity_hash: string;
@@ -12,13 +12,17 @@ export declare class AngularRaveComponent implements OnInit {
     customer_phone: string;
     customer_firstname: string;
     customer_lastname: string;
+    subaccount: {
+        id: string;
+        transaction_split_ratio: string;
+    }[];
     pay_button_text: string;
     custom_title: string;
     custom_description: string;
     redirect_url: string;
     custom_logo: string;
     meta: any;
-    raveOptions: Partial<_RaveOptions>;
+    raveOptions: Partial<PrivateRaveOptions>;
     onclose: EventEmitter<void>;
     callback: EventEmitter<Object>;
     private _raveOptions;

@@ -73,7 +73,7 @@ You can also pass in an object containing your rave options like so
   [raveOptions]="paymentOptions"
 >PAY NOW</button>
 ```
-
+And then you can import the `RaveOptions` class for help in typing
 ```ts
 import { RaveOptions } from 'angular-rave';
 
