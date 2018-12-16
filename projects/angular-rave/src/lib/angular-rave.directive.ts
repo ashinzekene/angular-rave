@@ -41,11 +41,9 @@ export class AngularRaveDirective {
   @HostListener('click')
   buttonClick() {
     this.pay();
-    console.log(this._raveOptions);
   }
 
   async pay() {
-    console.log(this._raveOptions);
     if (this.init) {
       this.init.emit();
     }
