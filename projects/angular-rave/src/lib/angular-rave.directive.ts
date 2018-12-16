@@ -9,7 +9,7 @@ interface MyWindow extends Window {
 declare var window: MyWindow;
 
 @Directive({
-  selector: '[angular-rave]'
+  selector: '[angular-rave]' // tslint:disable-line
 })
 export class AngularRaveDirective {
   @Input() PBFPubKey: string;
@@ -33,6 +33,7 @@ export class AngularRaveDirective {
   @Input() raveOptions: Partial<PrivateRaveOptions> = {};
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<any> = new EventEmitter<any>();
+  @Output() init: EventEmitter<Object> = new EventEmitter<Object>();
   private _raveOptions: Partial<PrivateRaveOptions> = {};
 
   constructor() { }
@@ -40,9 +41,15 @@ export class AngularRaveDirective {
   @HostListener('click')
   buttonClick() {
     this.pay();
+    console.log(this._raveOptions);
   }
 
-  pay() {
+  async pay() {
+    console.log(this._raveOptions);
+    if (this.init) {
+      this.init.emit();
+    }
+    await this.loadScript();
     if (typeof window.getpaidSetup !== 'function') {
       return console.error('ANGULAR-RAVE: Please verify that you imported rave\'s script into your index.html');
     }
@@ -77,6 +84,7 @@ export class AngularRaveDirective {
     if (this.subaccount) { this._raveOptions.subaccount = this.subaccount; }
     if (this.customer_phone) { this._raveOptions.customer_phone = this.customer_phone; }
     if (this.txref) { this._raveOptions.txref = this.txref; }
+    if (this.init) { this._raveOptions.init = () => this.init.emit(); }
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
     if (this.callback) { this._raveOptions.callback = res => this.callback.emit(res); }
   }
@@ -92,6 +100,23 @@ export class AngularRaveDirective {
     if (this.onclose.observers.length) { this.raveOptions.onclose = () => this.onclose.emit(); }
     this.raveOptions.callback = res => this.callback.emit(res);
     return true;
+  }
+
+  loadScript(): Promise<void> {
+    return new Promise(resolve => {
+      if (typeof window.getpaidSetup === 'function') {
+        resolve();
+        return;
+      }
+      const script = window.document.createElement('script');
+      window.document.head.appendChild(script);
+      const onLoadFunc = () => {
+        script.removeEventListener('load', onLoadFunc);
+        resolve();
+      };
+      script.addEventListener('load', onLoadFunc);
+      script.setAttribute('src', 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
+    });
   }
 
   validateInput() {

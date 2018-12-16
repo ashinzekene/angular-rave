@@ -90,4 +90,8 @@ export class PrivateRaveOptions extends RaveOptions {
    * A function to be called when the pay modal is closed.
    */
   onclose: () => void;
+  /**
+   * A function to be called when paymnent is about to begin.
+   */
+  init: () => void;
 }

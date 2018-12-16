@@ -8,7 +8,7 @@ interface MyWindow extends Window {
 declare var window: MyWindow;
 
 @Component({
-  selector: 'angular-rave',
+  selector: 'angular-rave', // tslint:disable-line
   template: `<ng-content></ng-content>`
 })
 
@@ -34,11 +34,16 @@ export class AngularRaveComponent implements OnInit {
   @Input() raveOptions: Partial<PrivateRaveOptions>;
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() init: EventEmitter<Object> = new EventEmitter<Object>();
   private _raveOptions: Partial<PrivateRaveOptions> = {};
 
   constructor() { }
 
-  pay() {
+  async pay() {
+    if (this.init) {
+      this.init.emit();
+    }
+    await this.loadScript();
     if (typeof window.getpaidSetup !== 'function') {
       return console.error('ANGULAR-RAVE: Please verify that you imported rave\'s script into your index.html');
     }
@@ -74,7 +79,25 @@ export class AngularRaveComponent implements OnInit {
     if (this.txref) { this._raveOptions.txref = this.txref; }
     if (this.customer_phone) { this._raveOptions.customer_phone = this.customer_phone; }
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
+    if (this.init) { this._raveOptions.init = () => this.init.emit(); }
     if (this.callback) { this._raveOptions.callback = (res) => this.onclose.emit(res); }
+  }
+
+  loadScript(): Promise<void> {
+    return new Promise(resolve => {
+      if (typeof window.getpaidSetup === 'function') {
+        resolve();
+        return;
+      }
+      const script = window.document.createElement('script');
+      window.document.head.appendChild(script);
+      const onLoadFunc = () => {
+        script.removeEventListener('load', onLoadFunc);
+        resolve();
+      };
+      script.addEventListener('load', onLoadFunc);
+      script.setAttribute('src', 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
+    });
   }
 
   validateOptions() {
@@ -85,7 +108,6 @@ export class AngularRaveComponent implements OnInit {
     if (!this.raveOptions.txref) { return console.error('ANGULAR-RAVE: A unique transaction reference is required'); }
     if (!this.raveOptions.amount) { return console.error('ANGULAR-RAVE: Amount to charge is required'); }
     if (!this.callback.observers.length) { return console.error('ANGULAR-RAVE: You should attach to callback to verify your transaction'); }
-    if (this.onclose.observers.length) { this.raveOptions.onclose = () => this.onclose.emit(); }
     this.raveOptions.callback = res => this.callback.emit(res);
     return true;
   }

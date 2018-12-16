@@ -1,9 +1,10 @@
 <button
-angular-rave
-class="btn btn-primary btn-lg"
-[raveOptions]="raveOptions"
-(callback)="paymentSuccess($event)"
-(onclose)="paymentFailure()"
+  angular-rave
+  (init)="paymentInit()"
+  class="btn btn-primary btn-lg"
+  [raveOptions]="raveOptions"
+  (callback)="paymentSuccess($event)"
+  (onclose)="paymentFailure()"
 >
 Pay with Rave
 </button>

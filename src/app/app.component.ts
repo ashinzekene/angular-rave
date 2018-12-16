@@ -24,4 +24,8 @@ export class AppComponent {
   paymentSuccess(res) {
     console.log('Payment complete', res);
   }
+
+  paymentInit() {
+    console.log('Payment about to begin');
+  }
 }
