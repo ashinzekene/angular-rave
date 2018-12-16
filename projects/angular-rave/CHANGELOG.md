@@ -2,6 +2,10 @@
 
 All notable changes to `angular-rave` will be documented here
 
+## 1.2.0 - 2018-12-12
+- added (init) event to be called when payment is about to begin
+- rave's script is not loaded automatically
+
 ## 1.0.2 - 2018-04-17
 - fixed bug where txref is not passed to rave
 

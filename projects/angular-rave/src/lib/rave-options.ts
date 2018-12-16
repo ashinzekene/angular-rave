@@ -91,7 +91,7 @@ export class PrivateRaveOptions extends RaveOptions {
    */
   onclose: () => void;
   /**
-   * A function to be called when paymnent is about to begin.
+   * A function to be called when payment is about to begin
    */
   init: () => void;
 }
