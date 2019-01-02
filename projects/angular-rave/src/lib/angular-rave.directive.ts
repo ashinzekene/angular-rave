@@ -113,7 +113,7 @@ export class AngularRaveDirective {
         resolve();
       };
       script.addEventListener('load', onLoadFunc);
-      script.setAttribute('src', 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
+      script.setAttribute('src', 'https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js');
     });
   }
 
