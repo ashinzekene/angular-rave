@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AngularRaveComponent } from './angular-rave.component';
+import { AngularRaveService } from './angular-rave.service';
+import { PBFPUBKEY_TOKEN } from './angular-rave-token';
 
 describe('AngularRaveComponent', () => {
   let component: AngularRaveComponent;
@@ -8,7 +10,11 @@ describe('AngularRaveComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AngularRaveComponent ]
+      declarations: [ AngularRaveComponent ],
+      providers: [
+        AngularRaveService,
+        { provide: PBFPUBKEY_TOKEN, useValue: 'PBFPubKey' }
+      ]
     })
     .compileComponents();
   }));
