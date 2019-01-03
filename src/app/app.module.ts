@@ -5,12 +5,12 @@ import { AppComponent } from './app.component';
 import { AngularRaveModule } from 'angular-rave';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
   imports: [
     BrowserModule,
-    AngularRaveModule
+    AngularRaveModule.forRoot('FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X'),
+  ],
+  declarations: [
+    AppComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
