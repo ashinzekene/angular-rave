@@ -2,7 +2,7 @@ export class RaveOptions {
   /**
    * Your merchant public key provided when you create a button
    */
-  PBFPubKey: string;
+  PBFPubKey?: string;
   /**
    * Email of the customer
    */

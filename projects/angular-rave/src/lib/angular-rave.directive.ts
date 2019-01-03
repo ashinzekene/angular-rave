@@ -1,6 +1,7 @@
 import { Directive, Input, Output, HostListener, EventEmitter } from '@angular/core';
 
 import { PrivateRaveOptions } from './rave-options';
+import { AngularRaveService } from './angular-rave.service';
 
 interface MyWindow extends Window {
   getpaidSetup: (raveOptions: Partial<PrivateRaveOptions>) => void;
@@ -9,7 +10,7 @@ interface MyWindow extends Window {
 declare var window: MyWindow;
 
 @Directive({
-  selector: '[angular-rave]' // tslint:disable-line
+  selector: '[angular-rave]', // tslint:disable-line
 })
 export class AngularRaveDirective {
   @Input() PBFPubKey: string;
@@ -37,7 +38,7 @@ export class AngularRaveDirective {
   private _raveOptions: Partial<PrivateRaveOptions> = {};
   private paymentSetup;
 
-  constructor() { }
+  constructor(private raveService: AngularRaveService) { }
 
   @HostListener('click')
   buttonClick() {
@@ -45,94 +46,34 @@ export class AngularRaveDirective {
   }
 
   async pay() {
-    if (this.init) {
-      this.init.emit();
-    }
-    await this.loadScript();
-    if (typeof window.getpaidSetup !== 'function') {
-      return console.error('ANGULAR-RAVE: Please verify that you imported rave\'s script into your index.html');
-    }
-    // If the raveoptions Input is present then use
-    if (this.raveOptions && Object.keys(this.raveOptions).length > 3) {
-      if (this.validateOptions()) {
-        this.paymentSetup = window.getpaidSetup(this.raveOptions);
-      }
+    await this.raveService.loadScript();
+    if (this.raveOptions && Object.keys(this.raveOptions).length > 1) {
+      this.checkInvalidOptions(this.raveOptions);
+      this.insertRaveOptions(this.raveOptions);
     } else {
-      if (this.validateInput()) {
-        this.insertRaveOptions();
-        this.paymentSetup = window.getpaidSetup(this._raveOptions);
-      }
+      this.checkInvalidOptions(this);
+      this.insertRaveOptions(this);
+    }
+    this.paymentSetup = window.getpaidSetup(this._raveOptions);
+    if (this.init.observers.length > 0) {
+      this.init.emit(this.paymentSetup);
     }
   }
 
-  insertRaveOptions() {
-    if (this.amount) { this._raveOptions.amount = this.amount; }
-    if (this.PBFPubKey) { this._raveOptions.PBFPubKey = this.PBFPubKey; }
-    if (this.payment_method) { this._raveOptions.payment_method = this.payment_method; }
-    if (this.redirect_url) { this._raveOptions.redirect_url = this.redirect_url; }
-    if (this.integrity_hash) { this._raveOptions.integrity_hash = this.integrity_hash; }
-    if (this.pay_button_text) { this._raveOptions.pay_button_text = this.pay_button_text; }
-    if (this.country) { this._raveOptions.country = this.country; }
-    if (this.currency) { this._raveOptions.currency = this.currency; }
-    if (this.custom_description) { this._raveOptions.custom_description = this.custom_description; }
-    if (this.customer_email) { this._raveOptions.customer_email = this.customer_email; }
-    if (this.custom_logo) { this._raveOptions.custom_logo = this.custom_logo; }
-    if (this.custom_title) { this._raveOptions.custom_title = this.custom_title; }
-    if (this.customer_firstname) { this._raveOptions.customer_firstname = this.customer_firstname; }
-    if (this.customer_lastname) { this._raveOptions.customer_lastname = this.customer_lastname; }
-    if (this.subaccount) { this._raveOptions.subaccount = this.subaccount; }
-    if (this.customer_phone) { this._raveOptions.customer_phone = this.customer_phone; }
-    if (this.txref) { this._raveOptions.txref = this.txref; }
-    if (this.init) { this._raveOptions.init = () => this.init.emit(); }
+  checkInvalidOptions(object) {
+    const optionsInvalid = this.raveService.isInvalidOptions(object);
+    if (optionsInvalid) {
+      console.error(optionsInvalid);
+    }
+  }
+
+  insertRaveOptions(object) {
+    this._raveOptions = this.raveService.createRaveOptionsObject(object);
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
-    if (this.callback) {
-      this._raveOptions.callback = (res) => {
-        this.onclose.emit(res);
-        this.paymentSetup.close();
-      };
-    }
-  }
-
-  validateOptions() {
-    if (!this.raveOptions.PBFPubKey) { return console.error('ANGULAR-RAVE: Merchant public key is required'); }
-    if (!(this.raveOptions.customer_email || this.raveOptions.customer_phone)) {
-      return console.error('ANGULAR-RAVE: Customer email or phone number is required');
-    }
-    if (!this.raveOptions.txref) { return console.error('ANGULAR-RAVE: A unique transaction reference is required'); }
-    if (!this.raveOptions.amount) { return console.error('ANGULAR-RAVE: Amount to charge is required'); }
-    if (!this.callback.observers.length) { return console.error('ANGULAR-RAVE: You should attach to callback to verify your transaction'); }
-    if (this.onclose.observers.length) { this.raveOptions.onclose = () => this.onclose.emit(); }
-    this.raveOptions.callback = res => {
-      this.callback.emit(res);
+    this._raveOptions.callback = (res) => {
+      this.onclose.emit(res);
       this.paymentSetup.close();
     };
-    return true;
-  }
-
-  loadScript(): Promise<void> {
-    return new Promise(resolve => {
-      if (typeof window.getpaidSetup === 'function') {
-        resolve();
-        return;
-      }
-      const script = window.document.createElement('script');
-      window.document.head.appendChild(script);
-      const onLoadFunc = () => {
-        script.removeEventListener('load', onLoadFunc);
-        resolve();
-      };
-      script.addEventListener('load', onLoadFunc);
-      script.setAttribute('src', 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
-    });
-  }
-
-  validateInput() {
-    if (!this.PBFPubKey) { return console.error('ANGULAR-RAVE: Merchant public key is required'); }
-    if (!(this.customer_email || this.customer_phone)) { return console.error('ANGULAR-RAVE: Customer email or phone number is required'); }
-    if (!this.txref) { return console.error('ANGULAR-RAVE: A unique transaction reference is required'); }
-    if (!this.amount) { return console.error('ANGULAR-RAVE: Amount to charge is required'); }
-    if (!this.callback) { return console.error('ANGULAR-RAVE: You should attach to callback to verify your transaction'); }
-    return true;
   }
 
 }
