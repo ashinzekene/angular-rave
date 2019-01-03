@@ -14,7 +14,7 @@ before_install:
 install:
   - npm install
 script:
-  - npm test
+  - npm test --project-angular-rave
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
