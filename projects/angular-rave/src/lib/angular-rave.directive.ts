@@ -1,10 +1,10 @@
 import { Directive, Input, Output, HostListener, EventEmitter } from '@angular/core';
 
-import { PrivateRaveOptions } from './rave-options';
+import { PrivateRaveOptions, PaymentSetup } from './rave-options';
 import { AngularRaveService } from './angular-rave.service';
 
 interface MyWindow extends Window {
-  getpaidSetup: (raveOptions: Partial<PrivateRaveOptions>) => void;
+  getpaidSetup: (raveOptions: Partial<PrivateRaveOptions>) => PaymentSetup;
 }
 
 declare var window: MyWindow;
@@ -36,7 +36,7 @@ export class AngularRaveDirective {
   @Output() callback: EventEmitter<any> = new EventEmitter<any>();
   @Output() init: EventEmitter<Object> = new EventEmitter<Object>();
   private _raveOptions: Partial<PrivateRaveOptions> = {};
-  private paymentSetup;
+  private paymentSetup: PaymentSetup;
 
   constructor(private raveService: AngularRaveService) { }
 

@@ -95,3 +95,7 @@ export class PrivateRaveOptions extends RaveOptions {
    */
   init: () => void;
 }
+
+export class PaymentSetup {
+  close: () => void;
+}

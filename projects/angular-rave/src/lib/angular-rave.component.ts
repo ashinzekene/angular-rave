@@ -36,7 +36,6 @@ export class AngularRaveComponent implements OnInit {
   @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
   @Output() init: EventEmitter<Object> = new EventEmitter<Object>();
   private _raveOptions: Partial<PrivateRaveOptions> = {};
-  private paymentSetup: any;
 
   constructor() { }
 
@@ -51,12 +50,12 @@ export class AngularRaveComponent implements OnInit {
     // If the raveoptions Input is present then use it
     if (this.raveOptions && Object.keys(this.raveOptions).length > 3) {
       if (this.validateOptions()) {
-        this.paymentSetup = window.getpaidSetup(this.raveOptions);
+        window.getpaidSetup(this.raveOptions);
       }
     } else {
       if (this.validateInput()) {
         this.insertRaveOptions();
-        this.paymentSetup = window.getpaidSetup(this._raveOptions);
+        window.getpaidSetup(this._raveOptions);
       }
     }
   }
@@ -81,12 +80,7 @@ export class AngularRaveComponent implements OnInit {
     if (this.customer_phone) { this._raveOptions.customer_phone = this.customer_phone; }
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
     if (this.init) { this._raveOptions.init = () => this.init.emit(); }
-    if (this.callback) {
-      this._raveOptions.callback = (res) => {
-        this.onclose.emit(res);
-        this.paymentSetup.close();
-      };
-    }
+    if (this.callback) { this._raveOptions.callback = (res) => this.onclose.emit(res); }
   }
 
   loadScript(): Promise<void> {
@@ -102,7 +96,7 @@ export class AngularRaveComponent implements OnInit {
         resolve();
       };
       script.addEventListener('load', onLoadFunc);
-      script.setAttribute('src', 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
+      script.setAttribute('src', 'https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js');
     });
   }
 
@@ -114,10 +108,7 @@ export class AngularRaveComponent implements OnInit {
     if (!this.raveOptions.txref) { return console.error('ANGULAR-RAVE: A unique transaction reference is required'); }
     if (!this.raveOptions.amount) { return console.error('ANGULAR-RAVE: Amount to charge is required'); }
     if (!this.callback.observers.length) { return console.error('ANGULAR-RAVE: You should attach to callback to verify your transaction'); }
-    this.raveOptions.callback = res => {
-      this.callback.emit(res);
-      this.paymentSetup.close();
-    };
+    this.raveOptions.callback = res => this.callback.emit(res);
     return true;
   }
 
