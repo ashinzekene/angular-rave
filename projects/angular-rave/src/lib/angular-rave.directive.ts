@@ -35,6 +35,7 @@ export class AngularRaveDirective {
   @Output() callback: EventEmitter<any> = new EventEmitter<any>();
   @Output() init: EventEmitter<Object> = new EventEmitter<Object>();
   private _raveOptions: Partial<PrivateRaveOptions> = {};
+  private paymentSetup;
 
   constructor() { }
 
@@ -54,12 +55,12 @@ export class AngularRaveDirective {
     // If the raveoptions Input is present then use
     if (this.raveOptions && Object.keys(this.raveOptions).length > 3) {
       if (this.validateOptions()) {
-        window.getpaidSetup(this.raveOptions);
+        this.paymentSetup = window.getpaidSetup(this.raveOptions);
       }
     } else {
       if (this.validateInput()) {
         this.insertRaveOptions();
-        window.getpaidSetup(this._raveOptions);
+        this.paymentSetup = window.getpaidSetup(this._raveOptions);
       }
     }
   }
@@ -84,7 +85,12 @@ export class AngularRaveDirective {
     if (this.txref) { this._raveOptions.txref = this.txref; }
     if (this.init) { this._raveOptions.init = () => this.init.emit(); }
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
-    if (this.callback) { this._raveOptions.callback = res => this.callback.emit(res); }
+    if (this.callback) {
+      this._raveOptions.callback = (res) => {
+        this.onclose.emit(res);
+        this.paymentSetup.close();
+      };
+    }
   }
 
   validateOptions() {
@@ -96,7 +102,10 @@ export class AngularRaveDirective {
     if (!this.raveOptions.amount) { return console.error('ANGULAR-RAVE: Amount to charge is required'); }
     if (!this.callback.observers.length) { return console.error('ANGULAR-RAVE: You should attach to callback to verify your transaction'); }
     if (this.onclose.observers.length) { this.raveOptions.onclose = () => this.onclose.emit(); }
-    this.raveOptions.callback = res => this.callback.emit(res);
+    this.raveOptions.callback = res => {
+      this.callback.emit(res);
+      this.paymentSetup.close();
+    };
     return true;
   }
 
