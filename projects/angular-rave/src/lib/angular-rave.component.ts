@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { PrivateRaveOptions, PaymentSetup } from './rave-options';
+import { PrivateRaveOptions, PaymentSetup, RaveOptions } from './rave-options';
 import { AngularRaveService } from './angular-rave.service';
 
 interface MyWindow extends Window {
@@ -14,43 +14,97 @@ declare var window: MyWindow;
 })
 
 export class AngularRaveComponent implements OnInit {
-  @Input() PBFPubKey: string;
-  @Input() integrity_hash: string;
-  @Input() txref: string;
-  @Input() payment_method: string;
-  @Input() amount: number;
-  @Input() currency: string;
-  @Input() country: string;
-  @Input() customer_email: string;
-  @Input() customer_phone: string;
-  @Input() customer_firstname: string;
-  @Input() customer_lastname: string;
-  @Input() subaccount: { id: string, transaction_split_ratio: string }[];
-  @Input() pay_button_text: string;
-  @Input() custom_title: string;
-  @Input() custom_description: string;
-  @Input() redirect_url: string;
-  @Input() custom_logo: string;
-  @Input() meta: any;
-  @Input() raveOptions: Partial<PrivateRaveOptions>;
+  @Input()
+  set PBFPubKey(v: string) {
+    this._raveOptions.PBFPubKey = v;
+  }
+  @Input()
+  set integrity_hash(v: string) {
+    this._raveOptions.integrity_hash = v;
+  }
+  @Input()
+  set txref(v: string) {
+    this._raveOptions.txref = v;
+  }
+  @Input()
+  set payment_method(v: string) {
+    this._raveOptions.payment_method = v;
+  }
+  @Input()
+  set amount(v: number) {
+    this._raveOptions.amount = v;
+  }
+  @Input()
+  set currency(v: string) {
+    this._raveOptions.currency = v;
+  }
+  @Input()
+  set country(v: string) {
+    this._raveOptions.country = v;
+  }
+  @Input()
+  set customer_email(v: string) {
+    this._raveOptions.customer_email = v;
+  }
+  @Input()
+  set customer_phone(v: string) {
+    this._raveOptions.customer_phone = v;
+  }
+  @Input()
+  set customer_firstname(v: string) {
+    this._raveOptions.customer_firstname = v;
+  }
+  @Input()
+  set customer_lastname(v: string) {
+    this._raveOptions.customer_lastname = v;
+  }
+  @Input()
+  set subaccount(v: { id: string, transaction_split_ratio: string }[]) {
+    this._raveOptions.subaccount = v;
+  }
+  @Input()
+  set pay_button_text(v: string) {
+    this._raveOptions.pay_button_text = v;
+  }
+  @Input()
+  set custom_title(v: string) {
+    this._raveOptions.custom_title = v;
+  }
+  @Input()
+  set custom_description(v: string) {
+    this._raveOptions.custom_description = v;
+  }
+  @Input()
+  set redirect_url(v: string) {
+    this._raveOptions.redirect_url = v;
+  }
+  @Input()
+  set custom_logo(v: string) {
+    this._raveOptions.custom_logo = v;
+  }
+  @Input()
+  set meta(v: any) {
+    this._raveOptions.meta = v;
+  }
+  @Input()
+  set raveOptions(v: Partial<PrivateRaveOptions>) {
+    this._raveOptions = v;
+  }
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
   @Output() init: EventEmitter<Object> = new EventEmitter<Object>();
   private _raveOptions: Partial<PrivateRaveOptions> = {};
   private paymentSetup: PaymentSetup;
+  private isvalidOptions = false;
 
   constructor(private raveService: AngularRaveService) { }
 
   async pay() {
     await this.raveService.loadScript();
-    if (this.raveOptions && Object.keys(this.raveOptions).length > 1) {
-      this.checkInvalidOptions(this.raveOptions);
-      this.insertRaveOptions(this.raveOptions);
-    } else {
-      this.checkInvalidOptions(this);
-      this.insertRaveOptions(this);
+    this.checkInvalidOptions(this);
+    if (this.isvalidOptions) {
+      this.paymentSetup = window.getpaidSetup(this._raveOptions);
     }
-    this.paymentSetup = window.getpaidSetup(this._raveOptions);
     if (this.init.observers.length > 0) {
       this.init.emit(this.paymentSetup);
     }
@@ -60,7 +114,9 @@ export class AngularRaveComponent implements OnInit {
     const optionsInvalid = this.raveService.isInvalidOptions(object);
     if (optionsInvalid) {
       console.error(optionsInvalid);
+      return;
     }
+    this.isvalidOptions = true;
   }
 
   insertRaveOptions(object) {
@@ -74,5 +130,9 @@ export class AngularRaveComponent implements OnInit {
 
   ngOnInit() {
     this.pay();
+  }
+
+  get paymenteOptions(): Partial<RaveOptions> {
+    return this._raveOptions;
   }
 }

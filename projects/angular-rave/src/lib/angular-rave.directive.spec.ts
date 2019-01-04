@@ -28,4 +28,9 @@ describe('AngularRaveComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should update _paymentOptions.PBFPubKey when inputing PBFPubKey', () => {
+    component.PBFPubKey = 'PBFPubKey-testkey';
+    expect(component.paymenteOptions.PBFPubKey).toBe('PBFPubKey-testkey');
+  });
 });

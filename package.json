@@ -6,7 +6,8 @@
     "start": "ng serve",
     "postbuild": "node scripts/copy-artifacts.js",
     "build": "ng build",
-    "test": "ng test",
+    "test": "ng test --project=angular-rave --watch=false --no-progress --browsers=ChromeHeadless",
+    "test-watch": "ng test --project=angular-rave --no-progress",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
