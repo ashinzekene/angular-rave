@@ -64,6 +64,7 @@ export class AngularRaveDirective {
     const optionsInvalid = this.raveService.isInvalidOptions(object);
     if (optionsInvalid) {
       console.error(optionsInvalid);
+      return optionsInvalid;
     }
   }
 

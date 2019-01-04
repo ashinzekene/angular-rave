@@ -101,7 +101,7 @@ export class AngularRaveComponent implements OnInit {
 
   async pay() {
     await this.raveService.loadScript();
-    this.checkInvalidOptions(this);
+    this.checkInvalidOptions();
     if (this.isvalidOptions) {
       this.paymentSetup = window.getpaidSetup(this._raveOptions);
     }
@@ -110,11 +110,16 @@ export class AngularRaveComponent implements OnInit {
     }
   }
 
-  checkInvalidOptions(object) {
-    const optionsInvalid = this.raveService.isInvalidOptions(object);
+  checkInvalidOptions(): string | void {
+    const optionsInvalid = this.raveService.isInvalidOptions(this._raveOptions);
     if (optionsInvalid) {
       console.error(optionsInvalid);
-      return;
+      return optionsInvalid;
+    }
+    if (this.callback.observers.length === 0) {
+      const errorText = 'ANGULAR-RAVE: A success callback is required';
+      console.log(errorText);
+      return errorText;
     }
     this.isvalidOptions = true;
   }
@@ -132,7 +137,7 @@ export class AngularRaveComponent implements OnInit {
     this.pay();
   }
 
-  get paymenteOptions(): Partial<RaveOptions> {
+  get paymentOptions(): Partial<RaveOptions> {
     return this._raveOptions;
   }
 }
