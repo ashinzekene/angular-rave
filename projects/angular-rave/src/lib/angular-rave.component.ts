@@ -32,6 +32,7 @@ export class AngularRaveComponent implements OnInit {
   @Input() redirect_url: string;
   @Input() custom_logo: string;
   @Input() meta: any;
+  @Input() autoclose = true;
   @Input() raveOptions: Partial<PrivateRaveOptions>;
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
@@ -68,7 +69,9 @@ export class AngularRaveComponent implements OnInit {
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
     this._raveOptions.callback = (res) => {
       this.onclose.emit(res);
-      this.paymentSetup.close();
+      if (this.autoclose) {
+        this.paymentSetup.close();
+      }
     };
   }
 
