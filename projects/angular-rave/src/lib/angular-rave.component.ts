@@ -100,13 +100,13 @@ export class AngularRaveComponent implements OnInit {
   constructor(private raveService: AngularRaveService) { }
 
   async pay() {
-    await this.raveService.loadScript();
     this.checkInvalidOptions();
     if (this.isvalidOptions) {
+      await this.raveService.loadScript();
       this.paymentSetup = window.getpaidSetup(this._raveOptions);
-    }
-    if (this.init.observers.length > 0) {
-      this.init.emit(this.paymentSetup);
+      if (this.init.observers.length > 0) {
+        this.init.emit(this.paymentSetup);
+      }
     }
   }
 
