@@ -40,8 +40,8 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
     [custom_title]="'Bill Payment'"
     [txref]="'USR1295950'"
     (callback)="paymentSuccess($event)"
-    (close)="paymentFailure()"
-    (close)="paymentInit()"
+    (onclose)="paymentFailure()"
+    (init)="paymentInit()"
   ></angular-rave>
   ```
   or the directive
@@ -56,7 +56,7 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
   [custom_title]="'Bill Payment'"
   [txref]="'USR1295950'"
   (callback)="paymentSuccess($event)"
-  (close)="paymentFailure()"
+  (onclose)="paymentFailure()"
   (init)="paymentInit()"
 >PAY NOW</button>
 ```
