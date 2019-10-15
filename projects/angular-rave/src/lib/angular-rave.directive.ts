@@ -1,6 +1,6 @@
 import { Directive, Input, Output, HostListener, EventEmitter } from '@angular/core';
 
-import { PrivateRaveOptions, PaymentSetup } from './rave-options';
+import { PrivateRaveOptions, PaymentSetup, RaveOptions } from './rave-options';
 import { AngularRaveService } from './angular-rave.service';
 
 interface MyWindow extends Window {
@@ -46,28 +46,31 @@ export class AngularRaveDirective {
   }
 
   async pay() {
-    await this.raveService.loadScript();
+    let errorExists = false;
     if (this.raveOptions && Object.keys(this.raveOptions).length > 1) {
-      this.checkInvalidOptions(this.raveOptions);
+      errorExists = this.checkInvalidOptions(this.raveOptions);
       this.insertRaveOptions(this.raveOptions);
     } else {
-      this.checkInvalidOptions(this);
+      errorExists = this.checkInvalidOptions(this);
       this.insertRaveOptions(this);
     }
+    if (errorExists) return
+    await this.raveService.loadScript();
     this.paymentSetup = window.getpaidSetup(this._raveOptions);
     if (this.init.observers.length > 0) {
       this.init.emit(this.paymentSetup);
     }
   }
 
-  checkInvalidOptions(object) {
+  checkInvalidOptions(object: Partial<RaveOptions>): boolean {
     const optionsInvalid = this.raveService.isInvalidOptions(object);
     if (optionsInvalid) {
       console.error(optionsInvalid);
     }
+    return optionsInvalid !== ''
   }
 
-  insertRaveOptions(object) {
+  insertRaveOptions(object: Partial<RaveOptions>) {
     this._raveOptions = this.raveService.createRaveOptionsObject(object);
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
     this._raveOptions.callback = (res) => {

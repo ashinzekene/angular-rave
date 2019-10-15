@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { PrivateRaveOptions, PaymentSetup, RaveOptions } from './rave-options';
 import { AngularRaveService } from './angular-rave.service';
 
@@ -43,25 +43,28 @@ export class AngularRaveComponent implements OnInit {
   constructor(private raveService: AngularRaveService) { }
 
   async pay() {
-    await this.raveService.loadScript();
+    let errorExists = false;
     if (this.raveOptions && Object.keys(this.raveOptions).length > 1) {
-      this.checkInvalidOptions(this.raveOptions);
+      errorExists = this.checkInvalidOptions(this.raveOptions);
       this.insertRaveOptions(this.raveOptions);
     } else {
-      this.checkInvalidOptions(this);
+      errorExists = this.checkInvalidOptions(this);
       this.insertRaveOptions(this);
     }
+    if (errorExists) return
+    await this.raveService.loadScript();
     this.paymentSetup = window.getpaidSetup(this._raveOptions);
     if (this.init.observers.length > 0) {
       this.init.emit(this.paymentSetup);
     }
   }
 
-  checkInvalidOptions(object: Partial<RaveOptions>) {
+  checkInvalidOptions(object: Partial<RaveOptions>): boolean {
     const optionsInvalid = this.raveService.isInvalidOptions(object);
     if (optionsInvalid) {
       console.error(optionsInvalid);
     }
+    return optionsInvalid !== ''
   }
 
   insertRaveOptions(object: Partial<RaveOptions>) {

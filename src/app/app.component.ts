@@ -8,6 +8,7 @@ import { RaveOptions } from 'angular-rave';
 })
 export class AppComponent {
   title = 'app';
+  paymentInstance: any;
   raveOptions: RaveOptions = {
     customer_email: 'user@ravemail.com',
     customer_phone: '090848484843',
@@ -23,13 +24,11 @@ export class AppComponent {
 
   paymentSuccess(res) {
     console.log('Payment complete', res);
+    this.paymentInstance.close();
   }
 
   paymentInit(paymentInstance) {
-    setTimeout(() => {
-      console.log('Closing!!!');
-      paymentInstance.close();
-    }, 10000);
+    this.paymentFailure = paymentInstance;
     console.log('Payment about to begin', paymentInstance);
   }
 }

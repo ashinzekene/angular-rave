@@ -1,4 +1,5 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { AngularRaveComponent } from './angular-rave.component';
 import { AngularRaveDirective } from './angular-rave.directive';
@@ -7,6 +8,7 @@ import { PBFPUBKEY_TOKEN, ENVIRONMENT_TOKEN } from './angular-rave-token';
 import { raveRootOptions } from './rave-options';
 
 @NgModule({
+  imports: [CommonModule],
   declarations: [AngularRaveDirective, AngularRaveComponent],
   exports: [AngularRaveDirective, AngularRaveComponent],
 })

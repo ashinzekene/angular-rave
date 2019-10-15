@@ -9,7 +9,7 @@ import { AngularRaveModule } from 'angular-rave';
     BrowserModule,
     AngularRaveModule.forRoot({
       key: 'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X',
-      isTest: false,
+      isTest: true,
     }),
   ],
   declarations: [

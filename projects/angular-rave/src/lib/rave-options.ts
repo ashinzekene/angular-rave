@@ -46,7 +46,7 @@ export interface RaveOptions {
   /**
    * currency to charge the card in. Default "NGN"
    */
-  currency?: string;
+  currency: string;
   /**
    * This allows you select the payment option you want for your users, possible values are card, account or both
    */

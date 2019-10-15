@@ -24,7 +24,7 @@ export class AngularRaveService {
   createRaveOptionsObject(obj: Partial<PrivateRaveOptions>): Partial<PrivateRaveOptions> {
     const raveOptions: Partial<PrivateRaveOptions> = {};
     raveOptions.amount = obj.amount;
-    raveOptions.hosted_payment = 1;
+    // raveOptions.hosted_payment = 1; // Modal should open in another page
     raveOptions.PBFPubKey = obj.PBFPubKey || this.PBFPubKey;
     if (obj.payment_method) { raveOptions.payment_method = obj.payment_method; }
     if (obj.redirect_url) { raveOptions.redirect_url = obj.redirect_url; }
@@ -62,7 +62,7 @@ export class AngularRaveService {
     });
   }
 
-  isInvalidOptions(obj: Partial<RaveOptions>): string|false {
+  isInvalidOptions(obj: Partial<RaveOptions>): string {
     if (!obj.PBFPubKey && !this.PBFPubKey) {
       return 'ANGULAR-RAVE: Merchant public key is required';
     }
@@ -78,7 +78,7 @@ export class AngularRaveService {
     if (!obj.amount) {
       return 'ANGULAR-RAVE: Amount to charge is required';
     }
-    return false;
+    return "";
   }
 
 }
