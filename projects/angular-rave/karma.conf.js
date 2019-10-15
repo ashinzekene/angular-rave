@@ -16,7 +16,7 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, '../../coverage'),
+      dir: require('path').join(__dirname, '../../coverage/angular-rave'),
       reports: ['html', 'lcovonly'],
       fixWebpackSourcePaths: true
     },
@@ -24,14 +24,9 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: false,
+    autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
-      }
-    }
+    restartOnFileChange: true
   });
 };

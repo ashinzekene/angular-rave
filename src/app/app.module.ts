@@ -7,7 +7,10 @@ import { AngularRaveModule } from 'angular-rave';
 @NgModule({
   imports: [
     BrowserModule,
-    AngularRaveModule.forRoot('FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X'),
+    AngularRaveModule.forRoot({
+      key: 'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X',
+      isTest: false,
+    }),
   ],
   declarations: [
     AppComponent,

@@ -9,11 +9,11 @@ import { RaveOptions } from 'angular-rave';
 export class AppComponent {
   title = 'app';
   raveOptions: RaveOptions = {
-    PBFPubKey: '',
     customer_email: 'user@ravemail.com',
     customer_phone: '090848484843',
     amount: 3000,
-    custom_title: 'No true title',
+    currency: "NGN",
+    custom_title: 'Angular rave test payment',
     txref: `${Math.random() * 1000000}`,
   };
 
