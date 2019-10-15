@@ -13,25 +13,25 @@ declare var window: MyWindow;
   selector: '[angular-rave]', // tslint:disable-line
 })
 export class AngularRaveDirective {
-  @Input() PBFPubKey: string;
-  @Input() integrity_hash: string;
-  @Input() txref: string;
-  @Input() payment_method: string;
   @Input() amount: number;
-  @Input() currency: string;
   @Input() country: string;
+  @Input() currency: string;
+  @Input() custom_description: string;
+  @Input() custom_logo: string;
+  @Input() custom_title: string;
   @Input() customer_email: string;
-  @Input() customer_phone: string;
   @Input() customer_firstname: string;
   @Input() customer_lastname: string;
-  @Input() pay_button_text: string;
-  @Input() custom_title: string;
-  @Input() subaccount: { id: string, transaction_split_ratio: string }[];
-  @Input() custom_description: string;
-  @Input() redirect_url: string;
-  @Input() custom_logo: string;
+  @Input() customer_phone: string;
+  @Input() integrity_hash: string;
   @Input() meta: any;
+  @Input() pay_button_text: string;
+  @Input() payment_method: string;
+  @Input() PBFPubKey: string;
   @Input() raveOptions: Partial<PrivateRaveOptions> = {};
+  @Input() redirect_url: string;
+  @Input() subaccount: { id: string, transaction_split_ratio: string }[];
+  @Input() txref: string;
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<any> = new EventEmitter<any>();
   @Output() init: EventEmitter<Object> = new EventEmitter<Object>();

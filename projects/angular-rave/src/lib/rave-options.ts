@@ -1,4 +1,4 @@
-export class RaveOptions {
+export interface RaveOptions {
   /**
    * Your merchant public key provided when you create a button
    */
@@ -79,7 +79,7 @@ export class RaveOptions {
   subaccount?: { id: string, transaction_split_ratio: string }[];
 }
 
-export class PrivateRaveOptions extends RaveOptions {
+export interface PrivateRaveOptions extends RaveOptions {
   /**
    * A function to be called on successful card charge. User’s can always be redirected to a successful or
    * failed page supplied by the merchant here based on response
@@ -98,4 +98,16 @@ export class PrivateRaveOptions extends RaveOptions {
 
 export class PaymentSetup {
   close: () => void;
+}
+
+export interface raveRootOptions {
+  /**
+   * Your public key
+   */
+  key ?: string
+  /**
+   * Used to determing what script to load. Set to false when using a test public key
+   * Defaults to false
+   */
+  isTest ?: boolean
 }

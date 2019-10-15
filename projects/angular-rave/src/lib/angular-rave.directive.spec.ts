@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AngularRaveComponent } from './angular-rave.component';
 import { AngularRaveService } from './angular-rave.service';
-import { PBFPUBKEY_TOKEN } from './angular-rave-token';
+import { PBFPUBKEY_TOKEN, ENVIRONMENT_TOKEN } from './angular-rave-token';
 
 describe('AngularRaveComponent', () => {
   let component: AngularRaveComponent;
@@ -13,7 +13,8 @@ describe('AngularRaveComponent', () => {
       declarations: [ AngularRaveComponent ],
       providers: [
         AngularRaveService,
-        { provide: PBFPUBKEY_TOKEN, useValue: 'PBFPubKey' }
+        { provide: PBFPUBKEY_TOKEN, useValue: 'PBFPubKey' },
+        { provide: ENVIRONMENT_TOKEN, useValue: true }
       ]
     })
     .compileComponents();

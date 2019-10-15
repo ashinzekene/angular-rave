@@ -1,12 +1,14 @@
 import { Injectable, Inject } from '@angular/core';
-import { PrivateRaveOptions } from './rave-options';
-import { PBFPUBKEY_TOKEN } from './angular-rave-token';
+import { PrivateRaveOptions, RaveOptions } from './rave-options';
+import { PBFPUBKEY_TOKEN, ENVIRONMENT_TOKEN } from './angular-rave-token';
 
 interface MyWindow extends Window {
   getpaidSetup: (raveOptions: Partial<PrivateRaveOptions>) => void;
 }
-
 declare var window: MyWindow;
+
+const PROD_URL = "//api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js";
+const DEV_URL = "//ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js";
 
 
 @Injectable({
@@ -14,11 +16,15 @@ declare var window: MyWindow;
 })
 export class AngularRaveService {
 
-  constructor(@Inject(PBFPUBKEY_TOKEN) private PBFPubKey: string) { }
+  constructor(
+    @Inject(PBFPUBKEY_TOKEN) private PBFPubKey: string,
+    @Inject(ENVIRONMENT_TOKEN) private isDev: boolean,
+  ) { }
 
-  createRaveOptionsObject(obj): Partial<PrivateRaveOptions> {
+  createRaveOptionsObject(obj: Partial<PrivateRaveOptions>): Partial<PrivateRaveOptions> {
     const raveOptions: Partial<PrivateRaveOptions> = {};
     raveOptions.amount = obj.amount;
+    raveOptions.hosted_payment = 1;
     raveOptions.PBFPubKey = obj.PBFPubKey || this.PBFPubKey;
     if (obj.payment_method) { raveOptions.payment_method = obj.payment_method; }
     if (obj.redirect_url) { raveOptions.redirect_url = obj.redirect_url; }
@@ -51,11 +57,12 @@ export class AngularRaveService {
         resolve();
       };
       script.addEventListener('load', onLoadFunc);
-      script.setAttribute('src', 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
+      const url = this.isDev ? DEV_URL : PROD_URL;
+      script.setAttribute('src', url);
     });
   }
 
-  isInvalidOptions(obj): string|false {
+  isInvalidOptions(obj: Partial<RaveOptions>): string|false {
     if (!obj.PBFPubKey && !this.PBFPubKey) {
       return 'ANGULAR-RAVE: Merchant public key is required';
     }
@@ -64,6 +71,9 @@ export class AngularRaveService {
     }
     if (!obj.txref) {
       return 'ANGULAR-RAVE: A unique transaction reference is required';
+    }
+    if (!obj.currency) {
+      return 'ANGULAR-RAVE: Currency is required, Use "NGN" for naira';
     }
     if (!obj.amount) {
       return 'ANGULAR-RAVE: Amount to charge is required';
