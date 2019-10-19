@@ -24,7 +24,7 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
   @NgModlule({
     imports: [
       AngularRaveModule.forRoot({
-        key: 'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X',
+        key: 'FLWPUBK-XXXXXXXXXXXXXXXXXXX',
         isTest: true,
       }),
     ]
@@ -38,7 +38,6 @@ There are two option available
 - The `angular-rave` component:
 ```html
 <angular-rave
-  [PBFPubKey] = "'FLWPUBK-XXXXXXXXXXXX'"
   [customer_email] = "'user@example.com'"
   [customer_phone] = "'08090909090'"
   [amount]="500000"
@@ -54,7 +53,6 @@ There are two option available
 ```html
 <button
   angular-rave
-  [PBFPubKey] = "'FLWPUBK-XXXXXXXXXXXX'"
   [customer_email] = "'user@example.com'"
   [customer_phone] = "'08090909090'"
   [amount]="500000"
@@ -104,7 +102,9 @@ You can also pass in an object containing your rave options like so
 <button
   angular-rave
   [raveOptions]="paymentOptions"
->PAY NOW</button>
+>
+  PAY NOW
+</button>
 ```
 And then you can import the `RaveOptions` class for help in typing
 ```ts
@@ -134,6 +134,32 @@ By default, you would have to call `paymentInstance.close()` to close the modal 
 >PAY NOW</button>
 ```
 
+### Rave Key Specificity
+Also, you can pass in a key in the component and the directive, in such situation,
+this key is given a higher preference over the global `forRoot` key.
+For example, if you have this is your module file
+
+```ts
+@NgModule({
+  imports: [
+    AngularRaveModule.forRoot({
+      key: 'FLWPUBK-1000',
+      isTest: true,
+    }),
+  ]
+})
+```
+and this in your component
+```html
+<button
+  angular-rave
+  [PBFPubKey]="FLWPUBK-2000"
+  [raveOptions]="paymentOptions"
+>
+  PAY NOW
+</button>
+```
+Then `FLWPUBK-2000` would be used instead
 
 **NOTE:**
 
