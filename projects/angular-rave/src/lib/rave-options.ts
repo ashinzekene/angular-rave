@@ -102,12 +102,20 @@ export class PaymentSetup {
 
 export interface RaveRootOptions {
   /**
-   * Your public key
+   * Your rave public key. You should use your test key for test mode and live key for live mode.
    */
   key ?: string;
   /**
-   * Used to determing what script to load. Set to false when using a test public key
-   * Defaults to false
+   * Used to determing what script to load. Set to false when using a test public key.
+   * Default: `false`
    */
   isTest ?: boolean;
+}
+
+
+export interface PaymentInstance {
+  /**
+   * Close the payment modal after payment has finished
+   */
+  close: () => void;
 }

@@ -14,6 +14,7 @@ declare var window: MyWindow;
 })
 export class AngularRaveDirective {
   @Input() amount: number;
+  @Input() autoClose: boolean;
   @Input() country: string;
   @Input() currency: string;
   @Input() custom_description: string;
@@ -75,7 +76,9 @@ export class AngularRaveDirective {
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
     this._raveOptions.callback = (res) => {
       this.onclose.emit(res);
-      this.paymentSetup.close();
+      if (this.autoClose) {
+        this.paymentSetup.close();
+      }
     };
   }
 

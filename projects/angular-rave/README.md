@@ -23,29 +23,34 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
 
   @NgModlule({
     imports: [
-      AngularRaveModule,
+      AngularRaveModule.forRoot({
+        key: 'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X',
+        isTest: true,
+      }),
     ]
   })
   ```
 
 ### 3. Implementing Angular-rave
 
- Either by using the component
-  ```html
-  <angular-rave
-    [PBFPubKey] = "'FLWPUBK-XXXXXXXXXXXX'"
-    [customer_email] = "'user@example.com'"
-    [customer_phone] = "'08090909090'"
-    [amount]="500000"
-    [custom_title]="'Bill Payment'"
-    [txref]="'USR1295950'"
-    (callback)="paymentSuccess($event)"
-    (close)="paymentFailure()"
-    (close)="paymentInit()"
-  ></angular-rave>
-  ```
-  or the directive
+There are two option available
 
+- The `angular-rave` component:
+```html
+<angular-rave
+  [PBFPubKey] = "'FLWPUBK-XXXXXXXXXXXX'"
+  [customer_email] = "'user@example.com'"
+  [customer_phone] = "'08090909090'"
+  [amount]="500000"
+  [custom_title]="'Bill Payment'"
+  [txref]="'USR1295950'"
+  (callback)="paymentSuccess($event)"
+  (close)="paymentFailure()"
+  (close)="paymentInit()"
+></angular-rave>
+```
+
+2. The `angular-rave` directive:
 ```html
 <button
   angular-rave
@@ -56,11 +61,43 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
   [custom_title]="'Bill Payment'"
   [txref]="'USR1295950'"
   (callback)="paymentSuccess($event)"
-  (close)="paymentFailure()"
+  (onclose)="paymentFailure()"
   (init)="paymentInit()"
 >PAY NOW</button>
 ```
+And then in your `component.ts` file:
 
+```ts
+import { Component } from '@angular/core';
+import { PaymentInstance } from 'angular-rave';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  paymentInstance: PaymentInstance;
+  token :string
+
+  paymentFailure() {
+    console.log('Payment Failed');
+  }
+
+  paymentSuccess(res) {
+    console.log('Payment complete', res);
+    this.paymentInstance.close();
+  }
+
+  paymentInit(paymentInstance) {
+    this.paymentFailure = paymentInstance;
+    console.log('Payment about to begin', paymentInstance);
+  }
+}
+
+```
+
+### Rave Options
 You can also pass in an object containing your rave options like so
 
 ```html
@@ -74,7 +111,6 @@ And then you can import the `RaveOptions` class for help in typing
 import { RaveOptions } from 'angular-rave';
 
 ...
-
 paymentOptions: RaveOptions = {
   PBFPubKey: 'FLWPUBK-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
   customer_email: 'mailexample@mail.com',
@@ -85,8 +121,19 @@ paymentOptions: RaveOptions = {
   customer_phone: '09026464646',
   txref: 'a-unique-reference',
 }
-
 ```
+
+### Autoclose
+By default, you would have to call `paymentInstance.close()` to close the modal after a transaction is complete. You can pass in the `autoClose` boolean input to close the modal automatically after a transaction is completed. Use like so
+
+```html
+<button
+  angular-rave
+  [autoClose]="true"
+  [raveOptions]="paymentOptions"
+>PAY NOW</button>
+```
+
 
 **NOTE:**
 
@@ -114,11 +161,12 @@ custom_title            | string      |  false           | -             | Text 
 custom_description      | string      |  false           | -             | Text to be displayed as a short modal description.
 redirect_url            | string      |  false           | -             | URL to redirect to when transaction is completed.
 custom_logo             | string      |  false           | -             | Link to your custom image.
-meta                    | object      |  false           | -             | Any other custom data you wish to pass. Eg- [{   metaname:‘flightid’,metavalue:‘93849-MK5000’}]
+meta                    | object      |  false           | -             | Any other custom data you wish to pass. Eg- `[{ metaname: ‘flightid’, metavalue: ‘93849-MK5000’}]`
 onclose                 | function()  |  false           | -             | A function to be called when the pay modal is closed.
 callback                | function(res) |  true          | -             | A function to be called on successful card charge. User’s can always be redirected to a successful or failed page supplied by the merchant here based on response.
-init                    | function(res) |  false         | -             | A function to be called when payment is about to begin
 subaccounts             | []{id: string, transaction_split_ratio: string} |  true          | -             | Subaccounts to add for split payments https://developer.flutterwave.com/v2.0/docs/split-payment
+init                    | function(res) |  false         | -             | A function to be called when payment is about to begin
+autoClose               | boolean      |  false         | -             | If true, the payment modal closes automatically after a transaction is completed
 
 > You can get more information from [rave's documentation](https://flutterwavedevelopers.readme.io/)
 

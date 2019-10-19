@@ -15,7 +15,7 @@ declare var window: MyWindow;
 
 export class AngularRaveComponent implements OnInit {
   @Input() amount: number;
-  @Input() autoclose = true;
+  @Input() autoClose: boolean;
   @Input() country: string;
   @Input() currency: string;
   @Input() custom_description: string;
@@ -72,7 +72,7 @@ export class AngularRaveComponent implements OnInit {
     if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
     this._raveOptions.callback = (res) => {
       this.onclose.emit(res);
-      if (this.autoclose) {
+      if (this.autoClose) {
         this.paymentSetup.close();
       }
     };

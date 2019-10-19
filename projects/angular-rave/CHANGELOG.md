@@ -2,6 +2,13 @@
 
 All notable changes to `angular-rave` will be documented here
 
+## 2.0.0 - 2019-10-19
+### Added
+- Module `forRoot` configuration
+- Added the `raveOptions` input
+- Intelliscence support for rave options
+- `autoClose` modal
+
 ## 1.2.1 - 2019-01-03
 - close rave modal automatically after successful payment
 

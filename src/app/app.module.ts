@@ -8,7 +8,7 @@ import { AngularRaveModule } from 'angular-rave';
   imports: [
     BrowserModule,
     AngularRaveModule.forRoot({
-      key: 'FLWPUBK-9eaca37f9eb70d3fe927bfda5e306e07-X',
+      key: 'FLWPUBK_TEST-ccf7c01dd5d4e69db74608b8c3a09499-X',
       isTest: true,
     }),
   ],
