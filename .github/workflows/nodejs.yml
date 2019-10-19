@@ -1,0 +1,27 @@
+name: Node CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, lint, build, and test
+      run: |
+        npm ci
+        npx ng lint
+        npx ng build
+        npx ng test angular-rave -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      env:
+        CI: true

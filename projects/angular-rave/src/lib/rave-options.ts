@@ -1,8 +1,8 @@
-export class RaveOptions {
+export interface RaveOptions {
   /**
    * Your merchant public key provided when you create a button
    */
-  PBFPubKey: string;
+  PBFPubKey?: string;
   /**
    * Email of the customer
    */
@@ -46,7 +46,7 @@ export class RaveOptions {
   /**
    * currency to charge the card in. Default "NGN"
    */
-  currency?: string;
+  currency: string;
   /**
    * This allows you select the payment option you want for your users, possible values are card, account or both
    */
@@ -79,7 +79,7 @@ export class RaveOptions {
   subaccount?: { id: string, transaction_split_ratio: string }[];
 }
 
-export class PrivateRaveOptions extends RaveOptions {
+export interface PrivateRaveOptions extends RaveOptions {
   /**
    * A function to be called on successful card charge. User’s can always be redirected to a successful or
    * failed page supplied by the merchant here based on response
@@ -94,4 +94,28 @@ export class PrivateRaveOptions extends RaveOptions {
    * A function to be called when payment is about to begin
    */
   init: () => void;
+}
+
+export class PaymentSetup {
+  close: () => void;
+}
+
+export interface RaveRootOptions {
+  /**
+   * Your rave public key. You should use your test key for test mode and live key for live mode.
+   */
+  key ?: string;
+  /**
+   * Used to determing what script to load. Set to false when using a test public key.
+   * Default: `false`
+   */
+  isTest ?: boolean;
+}
+
+
+export interface PaymentInstance {
+  /**
+   * Close the payment modal after payment has finished
+   */
+  close: () => void;
 }

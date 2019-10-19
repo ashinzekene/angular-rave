@@ -9,7 +9,6 @@ describe('AngularRaveComponent', () => {
   let fixture: ComponentFixture<AngularRaveComponent>;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [ AngularRaveComponent ],
       providers: [
@@ -27,8 +26,7 @@ describe('AngularRaveComponent', () => {
     fixture.detectChanges();
   });
 
-  // TODO: CANNOT TEST BECAUSE RAVE LOADS ANOTHER PAGE, HENCE CONNECTION IS LOST
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
