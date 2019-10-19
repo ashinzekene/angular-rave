@@ -13,7 +13,7 @@ export class AppComponent {
     customer_email: 'user@ravemail.com',
     customer_phone: '090848484843',
     amount: 3000,
-    currency: "NGN",
+    currency: 'NGN',
     custom_title: 'Angular rave test payment',
     txref: `${Math.random() * 1000000}`,
   };

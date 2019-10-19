@@ -15,8 +15,9 @@ language: node_js
 node_js:
   - stable
 install:
-  - npm install
+  - npm ci
 script:
+  - npx ng lint
   - npx ng test angular-rave -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 before_script:
   - export DISPLAY=:99.0

@@ -7,8 +7,8 @@ interface MyWindow extends Window {
 }
 declare var window: MyWindow;
 
-const PROD_URL = "//api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js";
-const DEV_URL = "//ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js";
+const PROD_URL = '//api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js';
+const DEV_URL = '//ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js';
 
 
 @Injectable({
@@ -78,7 +78,7 @@ export class AngularRaveService {
     if (!obj.amount) {
       return 'ANGULAR-RAVE: Amount to charge is required';
     }
-    return "";
+    return '';
   }
 
 }

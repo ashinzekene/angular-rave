@@ -100,14 +100,14 @@ export class PaymentSetup {
   close: () => void;
 }
 
-export interface raveRootOptions {
+export interface RaveRootOptions {
   /**
    * Your public key
    */
-  key ?: string
+  key ?: string;
   /**
    * Used to determing what script to load. Set to false when using a test public key
    * Defaults to false
    */
-  isTest ?: boolean
+  isTest ?: boolean;
 }

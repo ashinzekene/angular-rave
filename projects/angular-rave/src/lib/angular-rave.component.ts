@@ -35,8 +35,8 @@ export class AngularRaveComponent implements OnInit {
   @Input() subaccount: { id: string, transaction_split_ratio: string }[];
   @Input() txref: string;
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
-  @Output() callback: EventEmitter<Object> = new EventEmitter<Object>();
-  @Output() init: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() callback: EventEmitter<object> = new EventEmitter<object>();
+  @Output() init: EventEmitter<object> = new EventEmitter<object>();
   private _raveOptions: Partial<PrivateRaveOptions> = {};
   private paymentSetup: PaymentSetup;
 
@@ -51,7 +51,7 @@ export class AngularRaveComponent implements OnInit {
       errorExists = this.checkInvalidOptions(this);
       this.insertRaveOptions(this);
     }
-    if (errorExists) return
+    if (errorExists) { return; }
     await this.raveService.loadScript();
     this.paymentSetup = window.getpaidSetup(this._raveOptions);
     if (this.init.observers.length > 0) {
@@ -64,7 +64,7 @@ export class AngularRaveComponent implements OnInit {
     if (optionsInvalid) {
       console.error(optionsInvalid);
     }
-    return optionsInvalid !== ''
+    return optionsInvalid !== '';
   }
 
   insertRaveOptions(object: Partial<RaveOptions>) {
