@@ -60,7 +60,7 @@ There are two option available
   [txref]="'USR1295950'"
   (callback)="paymentSuccess($event)"
   (onclose)="paymentFailure()"
-  (init)="paymentInit()"
+  (init)="paymentInit($event)"
 >PAY NOW</button>
 ```
 And then in your `component.ts` file:
@@ -88,7 +88,7 @@ export class AppComponent {
   }
 
   paymentInit(paymentInstance) {
-    this.paymentFailure = paymentInstance;
+    this.paymentInstance = paymentInstance;
     console.log('Payment about to begin', paymentInstance);
   }
 }
