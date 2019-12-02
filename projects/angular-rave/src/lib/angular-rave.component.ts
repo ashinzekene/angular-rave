@@ -29,6 +29,7 @@ export class AngularRaveComponent implements OnInit {
   @Input() meta: any;
   @Input() pay_button_text: string;
   @Input() payment_method: string;
+  @Input() payment_options: string;
   @Input() PBFPubKey: string;
   @Input() raveOptions: Partial<PrivateRaveOptions>;
   @Input() redirect_url: string;

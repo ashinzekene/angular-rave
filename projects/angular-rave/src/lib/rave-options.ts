@@ -51,6 +51,8 @@ export interface RaveOptions {
    * This allows you select the payment option you want for your users, possible values are card, account or both
    */
   payment_method?: string;
+
+  payment_options?: string;
   /**
    * Text to be displayed on the Rave Checkout Button
    */
