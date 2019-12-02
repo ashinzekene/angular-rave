@@ -52,6 +52,15 @@ export interface RaveOptions {
    */
   payment_method?: string;
 
+  /**
+   * This allows you to select the payment option you want for your users.
+   * Possible values are: 'card', 'account', 'ussd', 'qr', 'mpesa', 'mobilemoneyghana',
+   * 'mobilemoneyuganda', 'mobilemoneyrwanda', 'mobilemoneyzambia'. 'mobilemoneytanzania',
+   * 'barter', 'bank transfer'.
+   *
+   * To use more than one option just add them as comma separated values without spaces
+   * e.g. 'card,account', 'card,account,qr' etc.
+   */
   payment_options?: string;
   /**
    * Text to be displayed on the Rave Checkout Button
