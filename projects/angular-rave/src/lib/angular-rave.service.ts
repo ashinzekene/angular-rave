@@ -27,6 +27,7 @@ export class AngularRaveService {
     // raveOptions.hosted_payment = 1; // Modal should open in another page
     raveOptions.PBFPubKey = obj.PBFPubKey || this.PBFPubKey;
     if (obj.payment_method) { raveOptions.payment_method = obj.payment_method; }
+    if (obj.payment_options) { raveOptions.payment_options = obj.payment_options; }
     if (obj.redirect_url) { raveOptions.redirect_url = obj.redirect_url; }
     if (obj.integrity_hash) { raveOptions.integrity_hash = obj.integrity_hash; }
     if (obj.pay_button_text) { raveOptions.pay_button_text = obj.pay_button_text; }
