@@ -13,7 +13,7 @@ import { RaveRootOptions } from './rave-options';
   exports: [AngularRaveDirective, AngularRaveComponent],
 })
 export class AngularRaveModule {
-  static forRoot(options: RaveRootOptions): ModuleWithProviders {
+  static forRoot(options: RaveRootOptions): ModuleWithProviders<AngularRaveModule> {
     return {
       ngModule: AngularRaveModule,
       providers: [

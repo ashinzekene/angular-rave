@@ -18,7 +18,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -38,10 +38,8 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -50,6 +48,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -127,6 +129,11 @@
           "options": {
             "tsConfig": "projects/angular-rave/tsconfig.lib.json",
             "project": "projects/angular-rave/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/angular-rave/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -150,6 +157,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "angular-rave"
+    }
+  },
+  "defaultProject": "angular-rave",
+  "cli": {
+    "analytics": "52dca2ff-666c-47c5-b136-a3124d15f7b1"
+  }
 }
