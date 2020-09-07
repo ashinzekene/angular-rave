@@ -60,7 +60,7 @@ There are two option available
   [txref]="'USR1295950'"
   (callback)="paymentSuccess($event)"
   (onclose)="paymentFailure()"
-  (init)="paymentInit()"
+  (init)="paymentInit($event)"
 >PAY NOW</button>
 ```
 And then in your `component.ts` file:
@@ -88,7 +88,7 @@ export class AppComponent {
   }
 
   paymentInit(paymentInstance) {
-    this.paymentFailure = paymentInstance;
+    this.paymentInstance = paymentInstance;
     console.log('Payment about to begin', paymentInstance);
   }
 }
@@ -178,6 +178,7 @@ txref                   | string      |  true            | -             | Uniqu
 amount                  | number      |  true            | -             | Amount to charge.
 integrity_hash          | string      |  false           | -             | (temporarily) This is a sha256 hash of your getpaidSetup values, it is used for passing secured values to the payment gateway.
 payment_method          | string      |  false           | "both"        | This allows you select the payment option you want for your users, possible values are card, account or both.
+payment_options         | string      |  false           | -             | This allows you to select the payment option you want for your users. Possible values are: `'card'`, `'account'`, `'ussd'`. To use more than one option just add them as comma separated values without spaces e.g. `'card,account'`, `'card,account,qr'` etc.
 currency                | string      |  false           | "NGN"         | currency to charge the card in.
 country                 | string      |  false           | "NG"          | route country.
 customer_firstname      | string      |  false           | -             | firstname of the customer.

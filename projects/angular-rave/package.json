@@ -20,6 +20,9 @@
     "url": "https://github.com/ashinzekene/angular-rave/issues"
   },
   "description": "Angular wrapper for integrating rave transactions",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "keywords": [
     "angular",
     "payment",
