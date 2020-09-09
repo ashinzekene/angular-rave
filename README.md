@@ -199,13 +199,23 @@ autoClose               | boolean      |  false         | -             | If tru
 
 ## CONTRIBUTING
 
-  This is an open source project, feel free to create issues and submit pull requests to make corrections or enhance functionality
+Feel free to create issues and submit pull requests to make corrections or enhance functionality
 
-## How can I thank you
+Two projects exist in this repository
+- The `Angular-rave` package: [`./projects/angular-rave`](./projects/angular-rave)
+- The `Angular-rave-lib` demo: [`./src`](./src)
 
-Why not star the github repo? I'd love the attention! Why not share the link for this repository on Twitter or anywhere? Spread the word!
+### Angular-rave project
+- Found at `./projects/angular-rave/src/lib`.
+- The artifacts ([README.md](./projects/angular-rave/README.md), [CHANGELOG.md](./projects/angular-rave/CHANGELOG.md) and [LICENSE.md](./projects/angular-rave/LICENSE.md)) in the `./projects/angular-rave/` folder are overwritten on [build](./package.json#L7)
+- Running `npm run build` on the main folder builds this project by [default](./angular.json#L155)
 
-Don't forget to [follow me on twitter](https://twitter.com/ashinzekene)!
+### Demo
+- To serve this project run `npm start`/`ng serve`.
+- This project makes use of the [built package](./tsconfig.json#L23) from the `angular-rave` library for quick testing and real-life debugging. So it's **important** to initially run `npm run build`/`ng build` before serving this project
+- To build this project, run `npm run build angular-rave-lib`. After building, a [post build script](./scripts/copy-web-build.js) moves the built files to the `docs` folder for GitHub Pages.
+- This project is also served on github pages at https://ashinzekene.github.io/angular-rave/
+
 
 Thanks!
 Ashinze Ekene.
