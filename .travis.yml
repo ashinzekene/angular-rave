@@ -1,5 +1,5 @@
 dist: xenial
-sudo: false
+os: linux
 
 addons:
   apt:
@@ -23,14 +23,6 @@ script:
   - npx ng lint
   - npm run-script build
   - npx ng test angular-rave -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  local_dir: dist/angular-github-pages-travis
-  on:
-    branch: master
 
 notifications:
   email: false
