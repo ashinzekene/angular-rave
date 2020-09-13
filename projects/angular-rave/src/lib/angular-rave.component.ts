@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
-import { PaymentOptionsEnum, RaveCustomer, RaveOptions, RaveSubAcccount } from './rave-options';
+import { PaymentOptionsEnum, RaveCustomer, RaveCustomization, RaveOptions, RaveSubAcccount } from './rave-options';
 import { AngularRaveService } from './angular-rave.service';
 import { PrivateRaveOptions, RavePaymentData } from './private-rave-options';
 
@@ -14,7 +14,7 @@ export class AngularRaveComponent implements OnInit {
   @Input() public_key: string;
   @Input() currency: string;
   @Input() customer: RaveCustomer;
-  @Input() customizations: object;
+  @Input() customizations: RaveCustomization;
   @Input() integrity_hash: string;
   @Input() meta: object;
   @Input() paymentOptions: PaymentOptionsEnum[];

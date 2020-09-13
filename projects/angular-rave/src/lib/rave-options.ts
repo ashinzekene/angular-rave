@@ -1,5 +1,5 @@
 export interface RaveOptions {
-  /* *
+  /**
    * Merchant public key
    */
   public_key?: string;
@@ -15,9 +15,9 @@ export interface RaveOptions {
   amount: number;
 
   /**
-   * currency to charge in
+   * currency to charge in. Defaults to 'NGN'
    */
-  currency: string;
+  currency?: string;
 
   /**
    * This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway.
@@ -27,7 +27,7 @@ export interface RaveOptions {
   /**
    * This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on.
    */
-  paymentOptions: PaymentOptionsEnum[];
+  paymentOptions?: PaymentOptionsEnum[];
 
   /**
    * This is the payment plan ID used for Recurring billing
@@ -79,11 +79,7 @@ export interface RaveOptions {
    * }
    * ```
    */
-  customizations: {
-    title: string;
-    description?: string;
-    logo?: string
-  };
+  customizations: RaveCustomization;
 }
 
 export type PaymentOptionsEnum =
@@ -114,4 +110,10 @@ export interface RaveCustomer {
 export interface RaveSubAcccount {
   id: string;
   transaction_split_ratio: number;
+}
+
+export interface RaveCustomization {
+  title: string;
+  description?: string;
+  logo?: string;
 }

@@ -1,18 +1,18 @@
 import { Directive, Input, Output, HostListener, EventEmitter } from '@angular/core';
 
-import { PaymentOptionsEnum, RaveCustomer, RaveOptions, RaveSubAcccount } from './rave-options';
+import { PaymentOptionsEnum, RaveCustomer, RaveCustomization, RaveOptions, RaveSubAcccount } from './rave-options';
 import { AngularRaveService } from './angular-rave.service';
 import { RavePaymentData, PrivateRaveOptions } from './private-rave-options';
 
 @Directive({
-  selector: '[angular-rave]', // tslint:disable-line
+  selector: '[angular-rave]', //tslint:disable-line
 })
 export class AngularRaveDirective {
   @Input() amount: number;
   @Input() public_key: string;
   @Input() currency: string;
   @Input() customer: RaveCustomer;
-  @Input() customizations: object;
+  @Input() customizations: RaveCustomization;
   @Input() integrity_hash: string;
   @Input() meta: object;
   @Input() paymentOptions: PaymentOptionsEnum[];

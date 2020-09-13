@@ -23,12 +23,12 @@ export class AngularRaveService {
     const raveOptions: Partial<PrivateRaveOptions> = {};
     raveOptions.amount = obj.amount;
     raveOptions.public_key = obj.public_key || this.publicKey;
-    if (obj.currency) { raveOptions.currency = obj.currency; }
+    raveOptions.currency = obj.currency || 'NGN';
     if (obj.customer) { raveOptions.customer = obj.customer; }
     if (obj.customizations) { raveOptions.customizations = obj.customizations; }
     if (obj.integrity_hash) { raveOptions.integrity_hash = obj.integrity_hash; }
     if (obj.meta) { raveOptions.meta = obj.meta; }
-    if (obj.paymentOptions) { raveOptions.payment_options = obj.paymentOptions.join(', '); }
+    if (obj.paymentOptions && obj.paymentOptions.length) { raveOptions.payment_options = obj.paymentOptions.join(', '); }
     if (obj.payment_plan) { raveOptions.payment_plan = obj.payment_plan; }
     if (obj.redirect_url) { raveOptions.redirect_url = obj.redirect_url; }
     if (obj.subaccounts) { raveOptions.subaccounts = obj.subaccounts; }
@@ -57,11 +57,9 @@ export class AngularRaveService {
   }
 
   isInvalidOptions(obj: Partial<RaveOptions>): string {
+    console.log('Transaction Reference', obj.tx_ref);
     if (!obj.public_key && !this.publicKey) {
       return 'ANGULAR-RAVE: Merchant public key is required';
-    }
-    if (!obj.currency) {
-      return 'ANGULAR-RAVE: Currency is required. Use "NGN" for Naira';
     }
     if (!obj.tx_ref) {
       return 'ANGULAR-RAVE: A unique transaction reference is required';
@@ -69,10 +67,7 @@ export class AngularRaveService {
     if (!obj.amount) {
       return 'ANGULAR-RAVE: Amount to charge is required';
     }
-    if (!obj.paymentOptions || !obj.paymentOptions.length) {
-      return 'ANGULAR-RAVE: At least one payment option is required';
-    }
-    if (!(obj.customer.email || obj.customer.phonenumber)) {
+    if (!obj.customer.email || !obj.customer.phonenumber) {
       return 'ANGULAR-RAVE: Customer email or phone number is required';
     }
     return '';
@@ -81,5 +76,4 @@ export class AngularRaveService {
   checkout(options: PrivateRaveOptions) {
     return window.FlutterwaveCheckout(options);
   }
-
 }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { RaveOptions } from 'angular-rave';
-import { PaymentData } from 'projects/angular-rave/src/public-api';
+import { RaveOptions, PaymentData } from 'angular-rave';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +7,9 @@ import { PaymentData } from 'projects/angular-rave/src/public-api';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'angular-rave-lib';
   raveOptions: RaveOptions = {
-    currency: 'NGN',
     amount: 3000,
-    payment_options: 'card',
     customer: {
       email: 'user@ravemail.com',
       phonenumber: '09010910901',

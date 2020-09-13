@@ -40,26 +40,11 @@ describe('AngularRaveComponent', () => {
     component.tx_ref = 'tx-reference-val';
     component.currency = 'NGN';
     component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
     const error = await component.pay();
 
     fixture.detectChanges();
     expect(error).toEqual('ANGULAR-RAVE: Amount to charge is required');
-    expect(component.init.emit).not.toHaveBeenCalled();
-  });
-
-  it('should not load the modal when the currency is not provided', async () => {
-    spyOn(component.init, 'emit');
-    component.customer = {
-      email: 'someuser@email.com',
-      phonenumber: '09209209309090',
-    };
-    component.tx_ref = 'tx-reference-val';
-    component.amount = 8000;
-    component.callback.subscribe(() => {});
-    const error = await component.pay();
-
-    fixture.detectChanges();
-    expect(error).toEqual('ANGULAR-RAVE: Currency is required. Use "NGN" for Naira');
     expect(component.init.emit).not.toHaveBeenCalled();
   });
 
@@ -72,6 +57,7 @@ describe('AngularRaveComponent', () => {
     component.currency = 'NGN';
     component.amount = 8000;
     component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
     const error = await component.pay();
 
     fixture.detectChanges();
@@ -79,39 +65,39 @@ describe('AngularRaveComponent', () => {
     expect(component.init.emit).not.toHaveBeenCalled();
   });
 
-  it('should not load the modal when the payment options is not provided', async () => {
+  it('should load the modal when the currency is not provided', async () => {
     spyOn(component.init, 'emit');
     component.customer = {
       email: 'someuser@email.com',
       phonenumber: '09209209309090',
     };
-    component.currency = 'NGN';
+    component.paymentOptions = ['account'];
+    component.tx_ref = 'tx-reference-val';
     component.amount = 8000;
-    component.tx_ref = 'A unique transaction reference';
     component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
     const error = await component.pay();
 
     fixture.detectChanges();
-    expect(error).toEqual('ANGULAR-RAVE: At least one payment option is required');
-    expect(component.init.emit).not.toHaveBeenCalled();
+    expect(error).toBeUndefined();
+    expect(component.init.emit).toHaveBeenCalled();
   });
 
-  it('should not load the modal when the payment options is empty', async () => {
+  it('should load the modal when the payment options is not provided', async () => {
     spyOn(component.init, 'emit');
     component.customer = {
       email: 'someuser@email.com',
       phonenumber: '09209209309090',
     };
-    component.currency = 'NGN';
+    component.tx_ref = 'tx-reference-val';
     component.amount = 8000;
-    component.tx_ref = 'A unique transaction reference';
-    component.paymentOptions = [];
     component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
     const error = await component.pay();
 
     fixture.detectChanges();
-    expect(error).toEqual('ANGULAR-RAVE: At least one payment option is required');
-    expect(component.init.emit).not.toHaveBeenCalled();
+    expect(error).toBeUndefined();
+    expect(component.init.emit).toHaveBeenCalled();
   });
 
   it('should load the modal when valid payment options are passed', async () => {
@@ -129,7 +115,7 @@ describe('AngularRaveComponent', () => {
     const error = await component.pay();
 
     fixture.detectChanges();
-    expect(error).not.toBeDefined();
+    expect(error).toBeUndefined();
     expect(component.init.emit).toHaveBeenCalled();
   });
 
@@ -156,8 +142,7 @@ describe('AngularRaveComponent', () => {
     const error = await component.pay();
 
     fixture.detectChanges();
-    expect(error).not.toBeDefined();
+    expect(error).toBeUndefined();
     expect(component.init.emit).toHaveBeenCalled();
   });
-
 });
