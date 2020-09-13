@@ -22,6 +22,7 @@ install:
 script:
   - npx ng lint
   - npm run-script build
+  - npm t
   - npx ng test angular-rave -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
 notifications:

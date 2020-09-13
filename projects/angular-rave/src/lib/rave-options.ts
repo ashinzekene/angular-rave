@@ -27,7 +27,7 @@ export interface RaveOptions {
   /**
    * This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on.
    */
-  payment_options: PaymentOptionsEnum;
+  paymentOptions: PaymentOptionsEnum[];
 
   /**
    * This is the payment plan ID used for Recurring billing

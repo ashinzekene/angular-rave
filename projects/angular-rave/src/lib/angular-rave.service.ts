@@ -16,10 +16,10 @@ const CHECKOUT_SCRIPT_URL = 'https://checkout.flutterwave.com/v3.js';
 export class AngularRaveService {
 
   constructor(
-    @Inject(PUBKEY_TOKEN) private publicKey: string,
+    @Inject(PUBKEY_TOKEN) public publicKey: string,
   ) { }
 
-  createRaveOptionsObject(obj: Partial<PrivateRaveOptions>, callback: RaveCallback, onclose: () => void): PrivateRaveOptions {
+  createRaveOptionsObject(obj: Partial<RaveOptions>, callback: RaveCallback, onclose: () => void): PrivateRaveOptions {
     const raveOptions: Partial<PrivateRaveOptions> = {};
     raveOptions.amount = obj.amount;
     raveOptions.public_key = obj.public_key || this.publicKey;
@@ -28,7 +28,7 @@ export class AngularRaveService {
     if (obj.customizations) { raveOptions.customizations = obj.customizations; }
     if (obj.integrity_hash) { raveOptions.integrity_hash = obj.integrity_hash; }
     if (obj.meta) { raveOptions.meta = obj.meta; }
-    if (obj.payment_options) { raveOptions.payment_options = obj.payment_options; }
+    if (obj.paymentOptions) { raveOptions.payment_options = obj.paymentOptions.join(', '); }
     if (obj.payment_plan) { raveOptions.payment_plan = obj.payment_plan; }
     if (obj.redirect_url) { raveOptions.redirect_url = obj.redirect_url; }
     if (obj.subaccounts) { raveOptions.subaccounts = obj.subaccounts; }
@@ -60,20 +60,20 @@ export class AngularRaveService {
     if (!obj.public_key && !this.publicKey) {
       return 'ANGULAR-RAVE: Merchant public key is required';
     }
-    if (!(obj.customer.email || obj.customer.phonenumber)) {
-      return 'ANGULAR-RAVE: Customer email or phone number is required';
-    }
-    if (!obj.payment_options) {
-      return 'ANGULAR-RAVE: Customer email or phone number is required';
-    }
     if (!obj.currency) {
-      return 'ANGULAR-RAVE: Currency is used. Use "NGN" for Naira';
+      return 'ANGULAR-RAVE: Currency is required. Use "NGN" for Naira';
     }
     if (!obj.tx_ref) {
       return 'ANGULAR-RAVE: A unique transaction reference is required';
     }
     if (!obj.amount) {
       return 'ANGULAR-RAVE: Amount to charge is required';
+    }
+    if (!obj.paymentOptions || !obj.paymentOptions.length) {
+      return 'ANGULAR-RAVE: At least one payment option is required';
+    }
+    if (!(obj.customer.email || obj.customer.phonenumber)) {
+      return 'ANGULAR-RAVE: Customer email or phone number is required';
     }
     return '';
   }

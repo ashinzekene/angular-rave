@@ -11,6 +11,7 @@ export interface RavePaymentData {
 }
 
 export interface PrivateRaveOptions extends RaveOptions {
+  payment_options: string;
   callback: RaveCallback;
   onclose: () => void;
 }

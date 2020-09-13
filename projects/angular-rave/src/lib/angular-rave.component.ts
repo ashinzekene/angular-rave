@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
-import { RaveOptions, RaveSubAcccount } from './rave-options';
+import { PaymentOptionsEnum, RaveCustomer, RaveOptions, RaveSubAcccount } from './rave-options';
 import { AngularRaveService } from './angular-rave.service';
 import { PrivateRaveOptions, RavePaymentData } from './private-rave-options';
 
@@ -13,11 +13,11 @@ export class AngularRaveComponent implements OnInit {
   @Input() amount: number;
   @Input() public_key: string;
   @Input() currency: string;
-  @Input() customer: object;
+  @Input() customer: RaveCustomer;
   @Input() customizations: object;
   @Input() integrity_hash: string;
   @Input() meta: object;
-  @Input() payment_options: string;
+  @Input() paymentOptions: PaymentOptionsEnum[];
   @Input() payment_plan: string;
   @Input() redirect_url: string;
   @Input() subaccounts: RaveSubAcccount[];
@@ -42,7 +42,7 @@ export class AngularRaveComponent implements OnInit {
     }
     if (!!raveOptionsError) {
       console.error(raveOptionsError);
-      return;
+      return raveOptionsError;
     }
     await this.raveService.loadScript();
     this.raveService.checkout(this._raveOptions);
