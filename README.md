@@ -213,7 +213,7 @@ Two projects exist in this repository
 ### Demo
 - To serve this project run `npm start`/`ng serve`.
 - This project makes use of the [built package](./tsconfig.json#L23) from the `angular-rave` library for quick testing and real-life debugging. So it's **important** to initially run `npm run build`/`ng build` before serving this project
-- To build this project, run `npm run build angular-rave-lib`. After building, a [post build script](./scripts/copy-web-build.js) moves the built files to the `docs` folder for GitHub Pages.
+- To build this project, run `npm run build angular-rave-lib`. This builds the  files to the `docs` folder for GitHub Pages.
 - This project is also served on github pages at https://ashinzekene.github.io/angular-rave/
 
 

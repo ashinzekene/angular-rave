@@ -13,9 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-rave-lib",
+            "outputPath": "docs",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "deployUrl": "angular-rave/",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
