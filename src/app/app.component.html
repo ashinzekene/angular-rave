@@ -1,8 +1,7 @@
 <button
   angular-rave
-  (init)="paymentInit($event)"
+  (init)="paymentInit()"
   class="btn btn-primary btn-lg"
-  [autoClose]="true"
   [raveOptions]="raveOptions"
   (callback)="paymentSuccess($event)"
   (onclose)="paymentFailure()"

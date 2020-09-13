@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RaveOptions, PaymentInstance } from 'angular-rave';
+import { RaveOptions } from 'angular-rave';
+import { PaymentData } from 'projects/angular-rave/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -8,30 +9,32 @@ import { RaveOptions, PaymentInstance } from 'angular-rave';
 })
 export class AppComponent {
   title = 'app';
-  paymentInstance: PaymentInstance;
   raveOptions: RaveOptions = {
-    customer_email: 'user@ravemail.com',
-    customer_phone: '090848484843',
-    amount: 3000,
-    redirect_url: 'http://localhost:4200',
     currency: 'NGN',
-    custom_title: 'Angular rave test payment',
-    txref: `${Math.random() * 1000000}`,
+    amount: 3000,
+    payment_options: 'card',
+    customer: {
+      email: 'user@ravemail.com',
+      phonenumber: '09010910901',
+      name: 'Ekene Ashinze',
+    },
+    customizations: {
+      description: 'This is a flutterwave modal implemented using angular rave',
+      title: 'Angular Rave',
+      logo: 'https://angular.io/assets/images/logos/angular/angular.svg',
+    },
+    tx_ref: `${Math.random() * 1000000}`,
   };
 
   paymentFailure() {
     console.log('Payment Failed');
-    this.paymentInstance.close();
   }
 
-  paymentSuccess(res) {
+  paymentSuccess(res: PaymentData) {
     console.log('Payment complete', res);
-    this.paymentInstance.close();
   }
 
-  paymentInit(paymentInstance) {
-    this.paymentFailure = paymentInstance;
-    console.log(paymentInstance);
-    console.log('Payment about to begin', paymentInstance);
+  paymentInit() {
+    console.log('Payment about to begin');
   }
 }

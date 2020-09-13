@@ -1,21 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AngularRaveComponent } from './angular-rave.component';
 import { AngularRaveService } from './angular-rave.service';
-import { PBFPUBKEY_TOKEN, ENVIRONMENT_TOKEN } from './angular-rave-token';
+import { PUBKEY_TOKEN } from './angular-rave-token';
 
 describe('AngularRaveComponent', () => {
   let component: AngularRaveComponent;
   let fixture: ComponentFixture<AngularRaveComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
       declarations: [ AngularRaveComponent ],
       providers: [
         AngularRaveService,
-        { provide: PBFPUBKEY_TOKEN, useValue: 'PBFPubKey' },
-        { provide: ENVIRONMENT_TOKEN, useValue: true }
+        { provide: PUBKEY_TOKEN, useValue: 'public_key' },
       ]
     })
     .compileComponents();
@@ -27,8 +26,8 @@ describe('AngularRaveComponent', () => {
     fixture.detectChanges();
   });
 
-  // TODO: CANNOT TEST BECAUSE RAVE LOADS ANOTHER PAGE, HENCE CONNECTION IS LOST
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
 });

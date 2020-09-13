@@ -1,44 +1,31 @@
 import { Directive, Input, Output, HostListener, EventEmitter } from '@angular/core';
 
-import { PrivateRaveOptions, PaymentSetup, RaveOptions } from './rave-options';
+import { RaveOptions, RaveSubAcccount } from './rave-options';
 import { AngularRaveService } from './angular-rave.service';
-
-interface MyWindow extends Window {
-  getpaidSetup: (raveOptions: Partial<PrivateRaveOptions>) => PaymentSetup;
-}
-
-declare var window: MyWindow;
+import { RavePaymentData, PrivateRaveOptions } from './private-rave-options';
 
 @Directive({
   selector: '[angular-rave]', // tslint:disable-line
 })
 export class AngularRaveDirective {
   @Input() amount: number;
-  @Input() autoClose: boolean;
-  @Input() country: string;
+  @Input() public_key: string;
   @Input() currency: string;
-  @Input() custom_description: string;
-  @Input() custom_logo: string;
-  @Input() custom_title: string;
-  @Input() customer_email: string;
-  @Input() customer_firstname: string;
-  @Input() customer_lastname: string;
-  @Input() customer_phone: string;
+  @Input() customer: object;
+  @Input() customizations: object;
   @Input() integrity_hash: string;
-  @Input() meta: any;
-  @Input() pay_button_text: string;
-  @Input() payment_method: string;
+  @Input() meta: object;
   @Input() payment_options: string;
-  @Input() PBFPubKey: string;
-  @Input() raveOptions: Partial<PrivateRaveOptions> = {};
+  @Input() payment_plan: string;
   @Input() redirect_url: string;
-  @Input() subaccount: { id: string, transaction_split_ratio: string }[];
-  @Input() txref: string;
+  @Input() subaccounts: RaveSubAcccount[];
+  @Input() tx_ref: string;
+  @Input() raveOptions: RaveOptions;
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
-  @Output() callback: EventEmitter<any> = new EventEmitter<any>();
+  @Output() callback: EventEmitter<RavePaymentData> = new EventEmitter<RavePaymentData>();
   @Output() init: EventEmitter<object> = new EventEmitter<object>();
-  private _raveOptions: Partial<PrivateRaveOptions> = {};
-  private paymentSetup: PaymentSetup;
+  private _raveOptions: PrivateRaveOptions;
+  private paymentSetup: any;
 
   constructor(private raveService: AngularRaveService) { }
 
@@ -48,39 +35,38 @@ export class AngularRaveDirective {
   }
 
   async pay() {
-    let errorExists = false;
+    let raveOptionsError = '';
     if (this.raveOptions && Object.keys(this.raveOptions).length > 1) {
-      errorExists = this.checkInvalidOptions(this.raveOptions);
+      raveOptionsError = this.raveService.isInvalidOptions(this.raveOptions);
       this.insertRaveOptions(this.raveOptions);
     } else {
-      errorExists = this.checkInvalidOptions(this);
-      this.insertRaveOptions(this);
+      raveOptionsError = this.raveService.isInvalidOptions(this as RaveOptions);
+      this.insertRaveOptions(this as RaveOptions);
     }
-    if (errorExists) { return; }
+    if (!!raveOptionsError) {
+      console.error(raveOptionsError);
+      return;
+    }
     await this.raveService.loadScript();
-    this.paymentSetup = window.getpaidSetup(this._raveOptions);
+    this.raveService.checkout(this._raveOptions);
     if (this.init.observers.length > 0) {
       this.init.emit(this.paymentSetup);
     }
   }
 
-  checkInvalidOptions(object: Partial<RaveOptions>): boolean {
-    const optionsInvalid = this.raveService.isInvalidOptions(object);
-    if (optionsInvalid) {
-      console.error(optionsInvalid);
-    }
-    return optionsInvalid !== '';
-  }
-
   insertRaveOptions(object: Partial<RaveOptions>) {
-    this._raveOptions = this.raveService.createRaveOptionsObject(object);
-    if (this.onclose) { this._raveOptions.onclose = () => this.onclose.emit(); }
-    this._raveOptions.callback = (res) => {
-      this.onclose.emit(res);
-      if (this.autoClose) {
-        this.paymentSetup.close();
+    const onclose = () => {
+      if (this.onclose.observers.length) {
+        this.onclose.emit();
       }
     };
+
+    const callback = (res: RavePaymentData) => {
+      this.callback.emit(res);
+    };
+
+    this._raveOptions = this.raveService.createRaveOptionsObject(object, callback, onclose);
   }
+
 
 }

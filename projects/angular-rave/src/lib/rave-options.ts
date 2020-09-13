@@ -1,132 +1,117 @@
 export interface RaveOptions {
-  /**
-   * Your merchant public key provided when you create a button
+  /* *
+   * Merchant public key
    */
-  PBFPubKey?: string;
+  public_key?: string;
+
   /**
-   * Email of the customer
+   * Your transaction reference. This MUST be unique for every transaction
    */
-  customer_email?: string;
+  tx_ref: string;
+
   /**
-   * Firstname of the customer
-   */
-  customer_firstname?: string;
-  /**
-   * firstname of the customer
-   */
-  customer_lastname?: string;
-  /**
-   * Text to be displayed as a short modal description
-   */
-  custom_description?: string;
-  /**
-   * Link to your custom image
-   */
-  custom_logo?: string;
-  /**
-   * Text to be displayed as the title of the payment modal
-   */
-  custom_title?: string;
-  /**
-   * Amount to charge
+   * Amount to charge the customer.
    */
   amount: number;
+
   /**
-   * phone number of the customer
-   */
-  customer_phone?: string;
-  /**
-   * URL to redirect to when transaction is completed.
-   */
-  redirect_url?: string;
-  /**
-   * route country. Default NG
-   */
-  country?: string;
-  /**
-   * currency to charge the card in. Default "NGN"
+   * currency to charge in
    */
   currency: string;
-  /**
-   * This allows you select the payment option you want for your users, possible values are card, account or both
-   */
-  payment_method?: string;
 
   /**
-   * This allows you to select the payment option you want for your users.
-   * Possible values are: 'card', 'account', 'ussd', 'qr', 'mpesa', 'mobilemoneyghana',
-   * 'mobilemoneyuganda', 'mobilemoneyrwanda', 'mobilemoneyzambia'. 'mobilemoneytanzania',
-   * 'barter', 'bank transfer'.
-   *
-   * To use more than one option just add them as comma separated values without spaces
-   * e.g. 'card,account', 'card,account,qr' etc.
-   */
-  payment_options?: string;
-  /**
-   * Text to be displayed on the Rave Checkout Button
-   */
-  pay_button_text?: string;
-  /**
-   * Unique transaction reference provided by the merchant
-   */
-  txref: string;
-  /**
-   * This is a sha256 hash of your getpaidSetup values, it is used for passing secured values to the payment gateway
+   * This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway.
    */
   integrity_hash?: string;
+
   /**
-   * The value to be passed for this is 1. This is useful when customer is using an opera browser, it
-   * would load the payment modal on a new page.
+   * This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on.
    */
-  hosted_payment?: 1;
+  payment_options: PaymentOptionsEnum;
+
   /**
-   * Any other custom data you wish to pass.
+   * This is the payment plan ID used for Recurring billing
    */
-  meta?: any;
+  payment_plan?: string;
+
   /**
-   * Subaccounts to split payment with
-   * https://developer.flutterwave.com/v2.0/docs/split-payment
+   * URL to redirect to when a transaction is completed.
+   * This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them.
    */
-  subaccount?: { id: string, transaction_split_ratio: string }[];
+  redirect_url?: string;
+
+  /**
+   * This is an object that can contains your customer details: e.g - 'customer':
+   *  ```json
+   * {
+   *  'email': 'example@example.com',
+   *  'phonenumber': '08012345678',
+   *  'name': 'Takeshi Kovacs'
+   * }
+   * ```
+   */
+  customer: RaveCustomer;
+
+  /**
+   * This is an array of objects containing the subaccount IDs to split the payment into. Check our Split Payment page for more info
+   */
+  subaccounts?: RaveSubAcccount[];
+
+  /**
+   * This is an object that helps you include additional payment information to your request
+   * E.g:
+   * ```json
+   *  {
+   *   'consumer_id': 23,
+   *   'consumer_mac': '92a3-912ba-1192a'
+   * }
+   * ```
+   */
+  meta?: { [key: string]: any };
+
+  /**
+   * This is an object that contains title, logo, and description you want to display on the modal e.g
+   * ```json
+   * {
+   *   'title': 'Pied Piper Payments',
+   *   'description': 'Middleout isn't free. Pay the price',
+   *   'logo': 'https://assets.piedpiper.com/logo.png'
+   * }
+   * ```
+   */
+  customizations: {
+    title: string;
+    description?: string;
+    logo?: string
+  };
 }
 
-export interface PrivateRaveOptions extends RaveOptions {
-  /**
-   * A function to be called on successful card charge. User’s can always be redirected to a successful or
-   * failed page supplied by the merchant here based on response
-   * @param response?: The server response
-   */
-  callback: (response?: any) => void;
-  /**
-   * A function to be called when the pay modal is closed.
-   */
-  onclose: () => void;
-  /**
-   * A function to be called when payment is about to begin
-   */
-  init: () => void;
+export type PaymentOptionsEnum =
+  'account' |
+  'card' |
+  'banktransfer' |
+  'mpesa' |
+  'mobilemoneyrwanda' |
+  'mobilemoneyzambia' |
+  'qr' |
+  'mobilemoneyuganda' |
+  'ussd' |
+  'credit' |
+  'barter' |
+  'mobilemoneyghana' |
+  'payattitude' |
+  'mobilemoneyfranco' |
+  'paga' |
+  '1voucher' |
+  'mobilemoneytanzania';
+
+export interface RaveCustomer {
+  email: string;
+  phonenumber: string;
+  name?: string;
 }
 
-export class PaymentSetup {
-  close: () => void;
-}
-
-export interface RaveRootOptions {
-  /**
-   * Your rave public key. You should use your test key for test mode and live key for live mode.
-   */
-  key ?: string;
-  /**
-   * Used to determing what script to load. Set to false when using a test public key.
-   * Default: `false`
-   */
-  isTest ?: boolean;
-}
-
-
-export interface PaymentInstance {
-  /**
-   * Close the payment modal after payment has finished
-   */
-  close: () => void;
+export interface RaveSubAcccount {
+  id: string;
+  transaction_split_ratio: number;
 }

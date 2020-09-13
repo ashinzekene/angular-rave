@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AngularRaveComponent } from './angular-rave.component';
 import { AngularRaveDirective } from './angular-rave.directive';
 import { AngularRaveService } from './angular-rave.service';
-import { PBFPUBKEY_TOKEN, ENVIRONMENT_TOKEN } from './angular-rave-token';
-import { RaveRootOptions } from './rave-options';
+import { PUBKEY_TOKEN } from './angular-rave-token';
 
 @NgModule({
   imports: [CommonModule],
@@ -13,13 +12,12 @@ import { RaveRootOptions } from './rave-options';
   exports: [AngularRaveDirective, AngularRaveComponent],
 })
 export class AngularRaveModule {
-  static forRoot(options: RaveRootOptions): ModuleWithProviders<AngularRaveModule> {
+  static forRoot(publicKey: string): ModuleWithProviders<AngularRaveModule> {
     return {
       ngModule: AngularRaveModule,
       providers: [
         AngularRaveService,
-        { provide: PBFPUBKEY_TOKEN, useValue: options.key },
-        { provide: ENVIRONMENT_TOKEN, useValue: options.isTest }
+        { provide: PUBKEY_TOKEN, useValue: publicKey },
       ]
     };
   }
