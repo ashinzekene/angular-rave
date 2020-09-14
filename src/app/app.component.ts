@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RaveOptions, PaymentData } from 'angular-rave';
+import { RaveOptions, RavePaymentData } from 'angular-rave';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +27,7 @@ export class AppComponent {
     console.log('Payment Failed');
   }
 
-  paymentSuccess(res: PaymentData) {
+  paymentSuccess(res: RavePaymentData) {
     console.log('Payment complete', res);
   }
 

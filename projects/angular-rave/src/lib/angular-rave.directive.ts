@@ -23,9 +23,8 @@ export class AngularRaveDirective {
   @Input() raveOptions: RaveOptions;
   @Output() onclose: EventEmitter<void> = new EventEmitter<void>();
   @Output() callback: EventEmitter<RavePaymentData> = new EventEmitter<RavePaymentData>();
-  @Output() init: EventEmitter<object> = new EventEmitter<object>();
+  @Output() init: EventEmitter<void> = new EventEmitter<void>();
   private _raveOptions: PrivateRaveOptions;
-  private paymentSetup: any;
 
   constructor(private raveService: AngularRaveService) { }
 
@@ -50,7 +49,7 @@ export class AngularRaveDirective {
     await this.raveService.loadScript();
     this.raveService.checkout(this._raveOptions);
     if (this.init.observers.length > 0) {
-      this.init.emit(this.paymentSetup);
+      this.init.emit();
     }
   }
 

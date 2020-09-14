@@ -2,11 +2,10 @@
 
 All notable changes to `angular-rave` will be documented here
 
-## 3.0.0 - 2020-09-13
 ### Changes
 - `forRoot` configuration no longer accepts an object. Now accepts only the public key
 - `PUBKey` now `public_key`
-- Implemented updated to `flutterwave's` inline script.
+- Implemented updated `flutterwave's` inline script.
 - `Customization` and `customer` object 
 
 ### Removed

@@ -8,7 +8,7 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
 
 ### 1. Install the module
 
-  Run in the your angular project
+  Run this in the root of your angular project
   ```bash
   npm install --save angular-rave
   ```
@@ -26,7 +26,7 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
     ]
   })
   ```
-  where `FLWPUBK-XXXXXXXXXXXXXXXXXXX` is your public which can be found on the flutterwave dashboard
+  where `FLWPUBK-XXXXXXXXXXXXXXXXXXX` is your public key which can be found on the flutterwave dashboard
 
 ### 3. Implementing Angular-rave
 
@@ -37,11 +37,11 @@ There are two option available
 <angular-rave
   [customer]="{ email: 'user@example.com', phonenumber: '0809808800900' }"
   [amount]="500000"
-  [customizations]="{ title: 'Bill Payment'}"
+  [customizations]="{ title: 'Bill Payment' }"
   [tx_ref]="'USR1295950'"
   (callback)="paymentSuccess($event)"
   (close)="paymentFailure()"
-  (close)="paymentInit()"
+  (init)="paymentInit()"
 ></angular-rave>
 ```
 
@@ -55,14 +55,14 @@ There are two option available
   [tx_ref]="'USR1295950'"
   (callback)="paymentSuccess($event)"
   (close)="paymentFailure()"
-  (close)="paymentInit()"
+  (init)="paymentInit()"
 >PAY NOW</button>
 ```
 And then in your `component.ts` file:
 
 ```ts
 import { Component } from '@angular/core';
-import { PaymentData } from 'angular-rave';
+import { RavePaymentData } from 'angular-rave';
 
 @Component({
   selector: 'app-root',
@@ -74,7 +74,7 @@ export class AppComponent {
     console.log('Payment Failed');
   }
 
-  paymentSuccess(res: PaymentData) {
+  paymentSuccess(res: RavePaymentData) {
     console.log('Payment complete', res);
     // Verify the transaction
   }
@@ -103,7 +103,7 @@ You can also pass in an object containing your rave options like so
 ```
 And then you can import the `RaveOptions` class for help in typing
 ```ts
-import { RaveOptions, PaymentData } from 'angular-rave';
+import { RaveOptions } from 'angular-rave';
 
 ...
   raveOptions: RaveOptions = {
@@ -176,9 +176,9 @@ Then `FLWPUBK-2000` would be used instead
 | customer                | RaveCustomer              | true              | -               | This is an object that can contains your customer details: e.g: `{ 'email': 'example@example.com', 'phonenumber': '08012345678', 'name': 'Takeshi Kovacs'}`
 | meta                    | `{[key: string]: any}`    | false             | -               | This is an object that helps you include additional payment information to your request `{'consumer_id': 23,'consumer_mac': '92a3-912ba-1192a'}`
 | customizations          | `RaveCustomization`       | true              | -               | This is an object that contains title, logo, and description you want to display on the modal e.g `{'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'}`
-| init                    | function(res)             | false             | -               | A function to be called when payment is about to begin
+| init                    | `() => void`              | false             | -               | A function to be called when payment is about to begin
 | onclose                 | function()                | false             | -               | A function to be called when the pay modal is closed before a transaction is completed.
-| callback                | function(res)             | true              | -               | A function to be called on successful card charge. User’s can always be redirected to a successful or failed page supplied by the merchant here based on response.
+| callback                | (res: RavePaymentData) => void     | true              | -               | A function to be called on successful card charge. Users can always be redirected to a successful or failed page supplied by the merchant here based on response.
 
 > You can get more information from [rave's documentation](https://flutterwavedevelopers.readme.io/)  
 > Type definitions can be found [here](./projects/angular-rave/src/lib/rave-options.ts)
