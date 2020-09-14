@@ -202,6 +202,14 @@ Two projects exist in this repository
 - To build this project, run `npm run build angular-rave-lib`. The compiled files are built to the `docs` folder for GitHub Pages.
 - This project is also served on github pages at https://ashinzekene.github.io/angular-rave/
 
+## Release
+- Checkout to a new release branch `release/new-version` eg `release/3.0.0`
+- cd into `projects/angular-rave` 
+- Run `npm version patch|minor|major`
+- cd into the main directory and run `npm build`
+- Run `git add . && git commit -m new-version`
+- Run `git tag -a new-version "release notes..."`
+- cd into `dist/angular-rave` and run `npm publish`
 
 Thanks!
 Ashinze Ekene.

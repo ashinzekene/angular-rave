@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "prebuild": "node scripts/copy-artifacts.js",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test:watch": "ng test angular-rave",
     "test": "ng test angular-rave --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",

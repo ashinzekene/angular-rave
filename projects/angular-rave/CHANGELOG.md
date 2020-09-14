@@ -2,6 +2,19 @@
 
 All notable changes to `angular-rave` will be documented here
 
+## 3.0.0 - 2020-09-14
+### Changes
+- `forRoot` configuration no longer accepts an object. Now accepts only the public key
+- `PUBKey` now `public_key`
+- Implemented updated `flutterwave's` inline script.
+
+### Removed
+- `autoClose` option
+
+### Fixed
+- Reload on successful transaction
+- Callback not being called after a successful transaction
+
 ## 2.0.0 - 2019-10-19
 ### Added
 - Module `forRoot` configuration

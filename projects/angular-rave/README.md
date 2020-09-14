@@ -6,13 +6,12 @@
 
 You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
 
-### 1. INSTALL THE MODULE
+### 1. Install the module
 
-  Run
+  Run this in the root of your angular project
   ```bash
   npm install --save angular-rave
   ```
-  in the your angular project
 
 ### 2. Import the module into your project like so
 
@@ -23,13 +22,11 @@ You can checkout the demo [here](https://ashinzekene.github.io/angular-rave)
 
   @NgModlule({
     imports: [
-      AngularRaveModule.forRoot({
-        key: 'FLWPUBK-XXXXXXXXXXXXXXXXXXX',
-        isTest: true,
-      }),
+      AngularRaveModule.forRoot('FLWPUBK-XXXXXXXXXXXXXXXXXXX'),
     ]
   })
   ```
+  where `FLWPUBK-XXXXXXXXXXXXXXXXXXX` is your public key which can be found on the flutterwave dashboard
 
 ### 3. Implementing Angular-rave
 
@@ -38,14 +35,13 @@ There are two option available
 - The `angular-rave` component:
 ```html
 <angular-rave
-  [customer_email] = "'user@example.com'"
-  [customer_phone] = "'08090909090'"
+  [customer]="{ email: 'user@example.com', phonenumber: '0809808800900' }"
   [amount]="500000"
-  [custom_title]="'Bill Payment'"
-  [txref]="'USR1295950'"
+  [customizations]="{ title: 'Bill Payment' }"
+  [tx_ref]="'USR1295950'"
   (callback)="paymentSuccess($event)"
   (close)="paymentFailure()"
-  (close)="paymentInit()"
+  (init)="paymentInit()"
 ></angular-rave>
 ```
 
@@ -53,21 +49,20 @@ There are two option available
 ```html
 <button
   angular-rave
-  [customer_email] = "'user@example.com'"
-  [customer_phone] = "'08090909090'"
+  [customer]="{ email: 'user@example.com', phonenumber: '0809808800900' }"
   [amount]="500000"
-  [custom_title]="'Bill Payment'"
-  [txref]="'USR1295950'"
+  [customizations]="{ title: 'Bill Payment'}"
+  [tx_ref]="'USR1295950'"
   (callback)="paymentSuccess($event)"
-  (onclose)="paymentFailure()"
-  (init)="paymentInit($event)"
+  (close)="paymentFailure()"
+  (init)="paymentInit()"
 >PAY NOW</button>
 ```
 And then in your `component.ts` file:
 
 ```ts
 import { Component } from '@angular/core';
-import { PaymentInstance } from 'angular-rave';
+import { RavePaymentData } from 'angular-rave';
 
 @Component({
   selector: 'app-root',
@@ -75,21 +70,17 @@ import { PaymentInstance } from 'angular-rave';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  paymentInstance: PaymentInstance;
-  token :string
-
   paymentFailure() {
     console.log('Payment Failed');
   }
 
-  paymentSuccess(res) {
+  paymentSuccess(res: RavePaymentData) {
     console.log('Payment complete', res);
-    this.paymentInstance.close();
+    // Verify the transaction
   }
 
-  paymentInit(paymentInstance) {
-    this.paymentInstance = paymentInstance;
-    console.log('Payment about to begin', paymentInstance);
+  paymentInit() {
+    console.log('Payment about to begin');
   }
 }
 
@@ -101,36 +92,41 @@ You can also pass in an object containing your rave options like so
 ```html
 <button
   angular-rave
-  [raveOptions]="paymentOptions"
+  [raveOptions]="raveOptions"
+  (init)="paymentInit()"
+  (callback)="paymentSuccess($event)"
+  (onclose)="paymentFailure()"
 >
-  PAY NOW
+  Pay with Rave Directive
 </button>
+
 ```
 And then you can import the `RaveOptions` class for help in typing
 ```ts
 import { RaveOptions } from 'angular-rave';
 
 ...
-paymentOptions: RaveOptions = {
-  PBFPubKey: 'FLWPUBK-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-  customer_email: 'mailexample@mail.com',
-  customer_firstname: 'Ashinze',
-  customer_lastname: 'Ekene',
-  custom_description: 'Payment for goods',
-  amount: 500000,
-  customer_phone: '09026464646',
-  txref: 'a-unique-reference',
-}
+  raveOptions: RaveOptions = {
+    amount: 3000,
+    customer: {
+      email: 'user@ravemail.com',
+      phonenumber: '09010910901',
+      name: 'Ekene Ashinze',
+    },
+    customizations: {
+      description: 'This is a flutterwave modal implemented using angular rave',
+      title: 'Angular Rave',
+      logo: 'https://angular.io/assets/images/logos/angular/angular.svg',
+    },
+    tx_ref: `${Math.random() * 1000000}`,
+  };
 ```
-
-### Autoclose
-By default, you would have to call `paymentInstance.close()` to close the modal after a transaction is complete. You can pass in the `autoClose` boolean input to close the modal automatically after a transaction is completed. Use like so
-
+And then in the template
 ```html
 <button
   angular-rave
   [autoClose]="true"
-  [raveOptions]="paymentOptions"
+  [raveOptions]="raveOptions"
 >PAY NOW</button>
 ```
 
@@ -142,10 +138,7 @@ For example, if you have this is your module file
 ```ts
 @NgModule({
   imports: [
-    AngularRaveModule.forRoot({
-      key: 'FLWPUBK-1000',
-      isTest: true,
-    }),
+    AngularRaveModule.forRoot('FLWPUBK-1000'),
   ]
 })
 ```
@@ -153,7 +146,7 @@ and this in your component
 ```html
 <button
   angular-rave
-  [PBFPubKey]="FLWPUBK-2000"
+  [public_key]="FLWPUBK-2000"
   [raveOptions]="paymentOptions"
 >
   PAY NOW
@@ -164,38 +157,31 @@ Then `FLWPUBK-2000` would be used instead
 **NOTE:**
 
 - When using the component, the rave's payment popup shows once the component is rendered while using the directive the popup shows on click
-- Always generate a unique reference for every transaction
+- Always generate a sensible unique reference for every transaction (unlike what I did up there 😉)
 - After successful payment always perform server verification
 
 ## OPTIONS
 
-| Name                  | Type        | Required         | Default Value | Description                                      |
-|-----------------------|------------ |------------------|:-------------:|--------------------------------------------------|
-PBFPubKey               | string      |  true            | -             | Your merchant public key provided when you create a button.
-customer_email          | string      |  true            | -             | ( if customer phone number is not passed ) Email of the customer.
-customer_phone          | string      |  true            | -             | phone number of the customer.
-txref                   | string      |  true            | -             | Unique transaction reference provided by the merchant.
-amount                  | number      |  true            | -             | Amount to charge.
-integrity_hash          | string      |  false           | -             | (temporarily) This is a sha256 hash of your getpaidSetup values, it is used for passing secured values to the payment gateway.
-payment_method          | string      |  false           | "both"        | This allows you select the payment option you want for your users, possible values are card, account or both.
-payment_options         | string      |  false           | -             | This allows you to select the payment option you want for your users. Possible values are: `'card'`, `'account'`, `'ussd'`. To use more than one option just add them as comma separated values without spaces e.g. `'card,account'`, `'card,account,qr'` etc.
-currency                | string      |  false           | "NGN"         | currency to charge the card in.
-country                 | string      |  false           | "NG"          | route country.
-customer_firstname      | string      |  false           | -             | firstname of the customer.
-customer_lastname       | string      |  false           | -             | lastname of the customer.
-pay_button_text         | string      |  false           | -             | Text to be displayed on the Rave Checkout Button.
-custom_title            | string      |  false           | -             | Text to be displayed as the title of the payment modal.
-custom_description      | string      |  false           | -             | Text to be displayed as a short modal description.
-redirect_url            | string      |  false           | -             | URL to redirect to when transaction is completed.
-custom_logo             | string      |  false           | -             | Link to your custom image.
-meta                    | object      |  false           | -             | Any other custom data you wish to pass. Eg- `[{ metaname: ‘flightid’, metavalue: ‘93849-MK5000’}]`
-onclose                 | function()  |  false           | -             | A function to be called when the pay modal is closed.
-callback                | function(res) |  true          | -             | A function to be called on successful card charge. User’s can always be redirected to a successful or failed page supplied by the merchant here based on response.
-subaccounts             | []{id: string, transaction_split_ratio: string} |  true          | -             | Subaccounts to add for split payments https://developer.flutterwave.com/v2.0/docs/split-payment
-init                    | function(res) |  false         | -             | A function to be called when payment is about to begin
-autoClose               | boolean      |  false         | -             | If true, the payment modal closes automatically after a transaction is completed
+| Name                    | Type                      | Required          | Default Value   | Description                                      |
+|-------------------------|---------------------------|-------------------|:---------------:|:--------------------------------------------------|
+| public_key              | string                    | true              | -               | Merchant public key
+| tx_ref                  | string                    | true              | -               | Your transaction reference. This MUST be unique for every transaction
+| amount                  | number                    | true              | -               | Amount to charge the customer.
+| currency                | string                    | false             | 'NGN'           | currency to charge in. Defaults to 'NGN'
+| integrity_hash          | string                    | false             | -               | This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway.
+| paymentOptions          | `PaymentOptionsEnum[]`    | false             | -               |This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on.
+| payment_plan            | string                    | false             | -               | This is the payment plan ID used for Recurring billing
+| subaccounts             | `RaveSubAcccount[]`       | false             | -               |This is an array of objects containing the subaccount IDs to split the payment into. Check our Split Payment page for more info
+| redirect_url            | string                    | false             | -               | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them.
+| customer                | RaveCustomer              | true              | -               | This is an object that can contains your customer details: e.g: `{ 'email': 'example@example.com', 'phonenumber': '08012345678', 'name': 'Takeshi Kovacs'}`
+| meta                    | `{[key: string]: any}`    | false             | -               | This is an object that helps you include additional payment information to your request `{'consumer_id': 23,'consumer_mac': '92a3-912ba-1192a'}`
+| customizations          | `RaveCustomization`       | true              | -               | This is an object that contains title, logo, and description you want to display on the modal e.g `{'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'}`
+| init                    | `() => void`              | false             | -               | A function to be called when payment is about to begin
+| onclose                 | function()                | false             | -               | A function to be called when the pay modal is closed before a transaction is completed.
+| callback                | (res: RavePaymentData) => void     | true              | -               | A function to be called on successful card charge. Users can always be redirected to a successful or failed page supplied by the merchant here based on response.
 
-> You can get more information from [rave's documentation](https://flutterwavedevelopers.readme.io/)
+> You can get more information from [rave's documentation](https://flutterwavedevelopers.readme.io/)  
+> Type definitions can be found [here](./projects/angular-rave/src/lib/rave-options.ts)
 
 ## CONTRIBUTING
 
@@ -213,9 +199,17 @@ Two projects exist in this repository
 ### Demo
 - To serve this project run `npm start`/`ng serve`.
 - This project makes use of the [built package](./tsconfig.json#L23) from the `angular-rave` library for quick testing and real-life debugging. So it's **important** to initially run `npm run build`/`ng build` before serving this project
-- To build this project, run `npm run build angular-rave-lib`. After building, a [post build script](./scripts/copy-web-build.js) moves the built files to the `docs` folder for GitHub Pages.
+- To build this project, run `npm run build angular-rave-lib`. The compiled files are built to the `docs` folder for GitHub Pages.
 - This project is also served on github pages at https://ashinzekene.github.io/angular-rave/
 
+## Release
+- Checkout to a new release branch `release/new-version` eg `release/3.0.0`
+- cd into `projects/angular-rave` 
+- Run `npm version patch|minor|major`
+- cd into the main directory and run `npm build`
+- Run `git add . && git commit -m new-version`
+- Run `git tag -a new-version "release notes..."`
+- cd into `dist/angular-rave` and run `npm publish`
 
 Thanks!
 Ashinze Ekene.
