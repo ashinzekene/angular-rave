@@ -7,7 +7,7 @@
     "prebuild": "node scripts/copy-artifacts.js",
     "build": "ng build",
     "test:watch": "ng test angular-rave",
-    "test": "ng test angular-rave --watch=false",
+    "test": "ng test angular-rave --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

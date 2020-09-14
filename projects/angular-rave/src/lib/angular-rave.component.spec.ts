@@ -1,21 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AngularRaveComponent } from './angular-rave.component';
 import { AngularRaveService } from './angular-rave.service';
-import { PBFPUBKEY_TOKEN, ENVIRONMENT_TOKEN } from './angular-rave-token';
+import { PUBKEY_TOKEN } from './angular-rave-token';
+import { RaveOptions } from './rave-options';
 
 describe('AngularRaveComponent', () => {
   let component: AngularRaveComponent;
   let fixture: ComponentFixture<AngularRaveComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
       declarations: [ AngularRaveComponent ],
       providers: [
         AngularRaveService,
-        { provide: PBFPUBKEY_TOKEN, useValue: 'PBFPubKey' },
-        { provide: ENVIRONMENT_TOKEN, useValue: true }
+        { provide: PUBKEY_TOKEN, useValue: 'public_key' },
       ]
     })
     .compileComponents();
@@ -27,8 +27,122 @@ describe('AngularRaveComponent', () => {
     fixture.detectChanges();
   });
 
-  // TODO: CANNOT TEST BECAUSE RAVE LOADS ANOTHER PAGE, HENCE CONNECTION IS LOST
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should not load the modal when the amount is not provided', async () => {
+    spyOn(component.init, 'emit');
+    component.customer = {
+      email: 'someuser@email.com',
+      phonenumber: '09209209309090',
+    };
+    component.tx_ref = 'tx-reference-val';
+    component.currency = 'NGN';
+    component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
+    const error = await component.pay();
+
+    fixture.detectChanges();
+    expect(error).toEqual('ANGULAR-RAVE: Amount to charge is required');
+    expect(component.init.emit).not.toHaveBeenCalled();
+  });
+
+  it('should not load the modal when the transaction reference is not provided', async () => {
+    spyOn(component.init, 'emit');
+    component.customer = {
+      email: 'someuser@email.com',
+      phonenumber: '09209209309090',
+    };
+    component.currency = 'NGN';
+    component.amount = 8000;
+    component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
+    const error = await component.pay();
+
+    fixture.detectChanges();
+    expect(error).toEqual('ANGULAR-RAVE: A unique transaction reference is required');
+    expect(component.init.emit).not.toHaveBeenCalled();
+  });
+
+  it('should load the modal when the currency is not provided', async () => {
+    spyOn(component.init, 'emit');
+    component.customer = {
+      email: 'someuser@email.com',
+      phonenumber: '09209209309090',
+    };
+    component.paymentOptions = ['account'];
+    component.tx_ref = 'tx-reference-val';
+    component.amount = 8000;
+    component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
+    const error = await component.pay();
+
+    fixture.detectChanges();
+    expect(error).toBeUndefined();
+    expect(component.init.emit).toHaveBeenCalled();
+  });
+
+  it('should load the modal when the payment options is not provided', async () => {
+    spyOn(component.init, 'emit');
+    component.customer = {
+      email: 'someuser@email.com',
+      phonenumber: '09209209309090',
+    };
+    component.tx_ref = 'tx-reference-val';
+    component.amount = 8000;
+    component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
+    const error = await component.pay();
+
+    fixture.detectChanges();
+    expect(error).toBeUndefined();
+    expect(component.init.emit).toHaveBeenCalled();
+  });
+
+  it('should load the modal when valid payment options are passed', async () => {
+    spyOn(component.init, 'emit');
+    component.customer = {
+      email: 'someuser@email.com',
+      phonenumber: '09209209309090',
+    };
+    component.currency = 'NGN';
+    component.amount = 8000;
+    component.tx_ref = 'A unique transaction reference';
+    component.paymentOptions = ['account', 'banktransfer', 'card'];
+    component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
+    const error = await component.pay();
+
+    fixture.detectChanges();
+    expect(error).toBeUndefined();
+    expect(component.init.emit).toHaveBeenCalled();
+  });
+
+  it('should load the modal when a valid payment options object is passed', async () => {
+    spyOn(component.init, 'emit');
+
+    const paymentOptions: RaveOptions = {
+      customer: {
+        email:   'someuser@email.com',
+        phonenumber:   '09209209309090'
+      },
+      customizations: {
+        title: 'My title'
+      },
+      currency: 'NGN',
+      amount:  8000,
+      tx_ref:  'A unique transaction reference',
+      paymentOptions: ['account', 'banktransfer', 'card'],
+    };
+
+    component.raveOptions = paymentOptions;
+    component.callback.subscribe(() => {});
+    component.init.subscribe(() => {});
+    const error = await component.pay();
+
+    fixture.detectChanges();
+    expect(error).toBeUndefined();
+    expect(component.init.emit).toHaveBeenCalled();
+  });
 });
